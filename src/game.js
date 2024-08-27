@@ -7,9 +7,10 @@ import hud from "./hud";
 import { loadAudio, loadImage } from "./loaderAssets";
 
 const FRAMES = 60;
-const smile = new Smile(300, 100, 20, 5, 'yellow');
-const hero = new Hero(300, 100, 4, 82, 89, FRAMES);
-const tangerine = new Circle(200, 200, 10, 5, 'orange');
+const groundY = 370; // Define a linha do chão
+const smile = new Smile(300, groundY, 20, 5, 'yellow');
+const hero = new Hero(300, groundY, 4, 82, 89, FRAMES);
+const tangerine = new Circle(200, groundY, 10, 5, 'orange');
 let enemies = Array.from({ length: 3 });
 let ctx;
 let canvas;
@@ -30,8 +31,6 @@ const init = async () => {
     console.log("Initialize Canvas");
     canvas = document.querySelector('canvas');
     ctx = canvas.getContext('2d');
-
-   
 
     // Carregar a imagem de fundo
     backgroundImg = await loadImage('img/background_game.png');
@@ -54,15 +53,15 @@ const init = async () => {
 
     enemies = enemies.map(() => new Enemy(
         Math.random() * canvas.width,
-        Math.random() * canvas.height, 
-        10, 
-        5, 
+        Math.random() * canvas.height,
+        10,
+        5,
         'red'
     ));
 
     tangerine.restart = () => {
         tangerine.x = tangerine.size + Math.random() * (boundaries.width - tangerine.size);
-        tangerine.y = tangerine.size + Math.random() * (boundaries.height - tangerine.size);
+        tangerine.y = groundY; // Posicionar no chão
     };
 
     keyPress(window);
@@ -89,6 +88,7 @@ const loop = () => {
 
         // Desenhar o resto dos elementos
         tangerine.draw(ctx);
+        smile.paint(ctx); // Atualizar a chamada para o método paint
 
         hero.move(boundaries, key);
         hero.draw(ctx);
@@ -103,8 +103,16 @@ const loop = () => {
 
         if (smile.colide(tangerine) || hero.colide(tangerine)) {
             tangerine.restart();
+            hero.grow(10); // Aumenta o tamanho do herói em 10 unidades
             console.clear();
             scoreSound.play();
+            console.count("PONTOS", ++score);
+        }
+
+        if (smile.colide(hero)) {
+            hero.shrink(10); // Reduz o tamanho do herói em 10 unidades
+            smile.moveRandomly(boundaries); // Move o Smile para uma nova posição aleatória
+            console.clear();
             console.count("PONTOS", ++score);
         }
 
@@ -122,5 +130,4 @@ const loop = () => {
 
     }, 1000 / FRAMES);
 };
-
 export { init };

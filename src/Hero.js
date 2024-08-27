@@ -1,43 +1,61 @@
-import Circle from './geometries/Circle'
-import { loadImage } from "./loaderAssets"
+import Circle from './geometries/Circle';
+import { loadImage } from "./loaderAssets";
 
 export default class Hero extends Circle {
 
 	constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
 		super(x, y, 0);
 		loadImage('img/sprite.png').then(img => this.img = img);
-		
-		this.cellWidth = 32;   // largura da célula de recorte
-		this.cellHeight = 48; // altura da célula de recorte
+
+		this.cellWidth = 32;  
+		this.cellHeight = 48; 
 		this.cellX = 0;
 		this.cellY = 0;
-		
-		this.totalSprites = 4; // Total de sprites por linha
+
+		this.totalSprites = 4; 
 		this.spriteSpeed = 1;
-		
+
 		this.setSprites();
 		this.controlSprite(FRAMES);
 
-		this.width = width/1.5;
-		this.height = height/1.5;
-		this.size = this.width / 2;
+		this.width = width;
+		this.height = height;
+		this.size = this.width / 1;
 
 		this.speed = velocity * this.spriteSpeed;
-		this.status = 'down';
-		
+		this.status = 'right'; 
+
 		this.showHit = false;
 		this.setHit();
 
 		this.setControlsKeys();
-	}
 
-	controlSprite(FRAMES) { // Controla a animação do sprite
+		this.groundY = 350;
+		this.y = this.groundY;
+
+	}
+	grow(amount) {
+        this.width += amount;
+        this.height += amount;
+        this.size = this.width / 2; 
+        this.setHit(); 
+    }
+	shrink(amount) {
+        this.width = Math.max(this.width - amount, 32); // Define um tamanho mínimo
+        this.height = Math.max(this.height - amount, 32); // Define um tamanho mínimo
+        this.size = this.width / 2; 
+        this.setHit(); 
+    }
+
+	controlSprite(FRAMES) { 
 		setInterval(() => {
 			this.cellX = this.cellX < this.totalSprites - 1 ? this.cellX + 1 : 0;
 		}, 1000 / (FRAMES * this.spriteSpeed / 10));
 	}
 
 	draw(CTX) {
+		if (!this.img) return; 
+
 		this.cellY = this.sprites[this.status] * this.cellHeight;
 
 		CTX.drawImage(
@@ -66,28 +84,22 @@ export default class Hero extends Circle {
 
 	setSprites() {
 		this.sprites = {
-			'down': 0,       // Linha 0
-			'up': 3,         // Linha 3
-			'left': 1,       // Linha 1
-			'right': 2       // Linha 2
+			'left': 1,
+			'right': 2
 		};
 	}
 
 	setControlsKeys() {
 		this.controls = {
-			"s": "down",
-			"w": "up",
-			"a": "left",
-			"d": "right"
+			"d": "right",
+			"a": "left"
 		};
 	}
 
 	setMovements() {
 		this.movements = {
-			'down': { y: this.y + this.speed },
-			'up': { y: this.y - this.speed },
-			'left': { x: this.x - this.speed },
-			'right': { x: this.x + this.speed }
+			'right': { x: this.x + this.speed },
+			'left': { x: this.x - this.speed }
 		};
 	}
 
@@ -102,16 +114,22 @@ export default class Hero extends Circle {
 		this.status = this.controls[key] ? this.controls[key] : this.status;
 
 		let newx = this.movements[this.status]?.x;
-		let newy = this.movements[this.status]?.y;
 
-		this.x = newx != undefined ? newx : this.x;
-		this.y = newy != undefined ? newy : this.y;
+		if (newx !== undefined) {
+			this.x = Math.max(0, Math.min(limits.width - this.width, newx));
+		}
 
-		this.limits(limits);
 		this.update();
 	}
 
 	colide(other) {
 		return this.hit.colide(other);
+	}
+
+	collectYellowBall() {
+		this.size += 10;
+		this.width = this.size * 2; 
+		this.height = this.size * 2; 
+		this.setHit(); 
 	}
 }
