@@ -31,8 +31,7 @@ const init = async () => {
     canvas = document.querySelector('canvas');
     ctx = canvas.getContext('2d');
 
-    canvas.width = 1000;  
-    canvas.height = 800; 
+   
 
     // Carregar a imagem de fundo
     backgroundImg = await loadImage('img/background_game.png');

@@ -1,9 +1,11 @@
-
-		body {
-			display: flex;
-			justify-content: center;
-		}
-
-		canvas {
-			border: 1px solid black;
-		}
+body {
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #000; /* Cor de fundo opcional para contraste */
+}
+canvas {
+	border: 4px solid #fff; /* Opcional: borda para o canvas */
+}

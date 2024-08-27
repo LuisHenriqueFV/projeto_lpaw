@@ -18,8 +18,8 @@ export default class Hero extends Circle {
 		this.setSprites();
 		this.controlSprite(FRAMES);
 
-		this.width = width;
-		this.height = height;
+		this.width = width/1.5;
+		this.height = height/1.5;
 		this.size = this.width / 2;
 
 		this.speed = velocity * this.spriteSpeed;
