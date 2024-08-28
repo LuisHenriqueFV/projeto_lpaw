@@ -6,11 +6,10 @@ import Hero from "./Hero";
 import hud from "./hud";
 import { loadAudio, loadImage } from "./loaderAssets";
 
-const FRAMES = 70; 
-const groundY = 370; // Define a linha do chão
-const smile = new Smile(300, groundY, 20, 5, 'yellow');
-const hero = new Hero(300, groundY, 8, 82, 89, FRAMES); // Aumenta a velocidade inicial do herói
-const tangerine = new Circle(200, groundY, 10, 5, 'orange');
+const FRAMES = 70;
+const smile = new Smile(300, 200, 20, 5, 'yellow'); // Ajuste a posição inicial do Smile conforme necessário
+const hero = new Hero(300, 200, 8, 82, 89, FRAMES); // Ajuste a posição inicial do herói conforme necessário
+const tangerine = new Circle(200, 200, 10, 5, 'orange'); // Ajuste a posição inicial do Tangerine conforme necessário
 const POINTS_FOR_YELLOWBALL = 50; // Pontuação para a YellowBall
 const POINTS_FOR_SMILE = 10; // Pontuação para o Smile
 let enemies = Array.from({ length: 3 });
@@ -24,7 +23,7 @@ let anime;
 let scoreSound;
 let themeSound;
 let gameoverSound;
-let backgroundImg; 
+let backgroundImg;
 
 const init = async () => {
     score = 0;
@@ -62,7 +61,7 @@ const init = async () => {
 
     tangerine.restart = () => {
         tangerine.x = tangerine.size + Math.random() * (boundaries.width - tangerine.size);
-        tangerine.y = groundY; // Posicionar no chão
+        // A posição Y do tangerine não será mais ajustada para groundY
     };
 
     keyPress(window);
@@ -84,10 +83,8 @@ const start = () => {
 
 const loop = () => {
     setTimeout(() => {
-        // Desenhar o fundo
         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
-        // Desenhar o resto dos elementos
         tangerine.draw(ctx);
         smile.paint(ctx);
 

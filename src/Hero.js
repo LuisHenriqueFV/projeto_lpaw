@@ -131,7 +131,6 @@ export default class Hero extends Circle {
             this.x = movement.x;
             this.y = movement.y;
 
-            // Checagem para transpassar as bordas
             if (this.x > limits.width) {
                 this.x = -this.width; // Saiu pela direita, reaparece pela esquerda
             } else if (this.x + this.width < 0) {
