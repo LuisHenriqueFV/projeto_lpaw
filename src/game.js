@@ -81,6 +81,11 @@ const start = () => {
     }, 1000);
 };
 
+const updateScoreTable = () => {
+    const scoreTable = document.getElementById('score');
+    scoreTable.textContent = `Score: ${score}`;
+};
+
 const loop = () => {
     setTimeout(() => {
         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
@@ -124,7 +129,7 @@ const loop = () => {
             themeSound.pause();
             cancelAnimationFrame(anime);
         } else {
-            hud(ctx, `Pontos: ${score}`);
+            updateScoreTable(); // Atualiza a tabela de pontuação
             anime = requestAnimationFrame(loop);
         }
 

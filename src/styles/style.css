@@ -1,11 +1,33 @@
 body {
-	margin: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	background-color: #000; /* Cor de fundo opcional para contraste */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000; /* Cor de fundo opcional para contraste */
+    position: relative;
 }
+
 canvas {
-	border: 4px solid #fff; /* Opcional: borda para o canvas */
+    border: 4px solid #ac0f0f; 
+}
+
+#score-table {
+    position: absolute;
+    top: 100px; /* Ajuste a posição conforme necessário */
+    right: 20px; /* Ajuste a posição conforme necessário */
+    /* background-color: rgba(138, 38, 38, 0.8);  */
+	color: white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+#score-table h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+#score-table p {
+    margin: 0;
+    font-size: 24px;
 }
