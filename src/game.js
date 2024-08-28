@@ -73,7 +73,7 @@ const start = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         hud(ctx, `Pressione ENTER para começar!! `, "#0f0", canvas.height / 2 - 50);
         console.log(key);
-        if (key == 'Enter') {
+        if (key === 'Enter') {
             themeSound.play();
             clearInterval(startInterval);
             loop();
@@ -88,7 +88,7 @@ const loop = () => {
 
         // Desenhar o resto dos elementos
         tangerine.draw(ctx);
-        smile.paint(ctx); // Atualizar a chamada para o método paint
+        smile.paint(ctx);
 
         hero.move(boundaries, key);
         hero.draw(ctx);
@@ -130,4 +130,5 @@ const loop = () => {
 
     }, 1000 / FRAMES);
 };
+
 export { init };

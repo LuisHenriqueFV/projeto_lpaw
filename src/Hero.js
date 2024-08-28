@@ -2,134 +2,160 @@ import Circle from './geometries/Circle';
 import { loadImage } from "./loaderAssets";
 
 export default class Hero extends Circle {
+    constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
+        super(x, y, 0);
+        
+        this.cellWidth = 191; // Atualizado para corresponder ao tamanho do sprite
+        this.cellHeight = 161; // Atualizado para corresponder ao tamanho do sprite
+        this.cellX = 0;
+        this.cellY = 0;
 
-	constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
-		super(x, y, 0);
-		loadImage('img/sprite.png').then(img => this.img = img);
+        this.totalSprites = 12; 
+        this.spriteSpeed = 1;
 
-		this.cellWidth = 32;  
-		this.cellHeight = 48; 
-		this.cellX = 0;
-		this.cellY = 0;
+        this.width = width;
+        this.height = height;
+        this.size = this.width;
 
-		this.totalSprites = 4; 
-		this.spriteSpeed = 1;
+        this.speed = velocity * this.spriteSpeed;
+        this.status = 'right';
 
-		this.setSprites();
-		this.controlSprite(FRAMES);
+        this.showHit = false;
 
-		this.width = width;
-		this.height = height;
-		this.size = this.width / 1;
+        this.imgLoaded = false;
+        loadImage('img/flying_dragon-red.png').then(img => {
+            this.img = img;
+            this.imgLoaded = true;
+        });
 
-		this.speed = velocity * this.spriteSpeed;
-		this.status = 'right'; 
+        this.setHit();
+        this.setControlsKeys();
+        this.setSprites();
 
-		this.showHit = false;
-		this.setHit();
+        this.lastFrameTime = 0;
+        this.controlSprite(FRAMES);
+    }
 
-		this.setControlsKeys();
-
-		this.groundY = 350;
-		this.y = this.groundY;
-
-	}
-	grow(amount) {
+    grow(amount) {
         this.width += amount;
         this.height += amount;
-        this.size = this.width / 2; 
-        this.setHit(); 
-    }
-	shrink(amount) {
-        this.width = Math.max(this.width - amount, 32); // Define um tamanho mínimo
-        this.height = Math.max(this.height - amount, 32); // Define um tamanho mínimo
-        this.size = this.width / 2; 
-        this.setHit(); 
+        this.size = this.width / 2;
+        this.setHit();
     }
 
-	controlSprite(FRAMES) { 
-		setInterval(() => {
-			this.cellX = this.cellX < this.totalSprites - 1 ? this.cellX + 1 : 0;
-		}, 1000 / (FRAMES * this.spriteSpeed / 10));
-	}
+    shrink(amount) {
+        this.width = Math.max(this.width - amount, 32);
+        this.height = Math.max(this.height - amount, 32);
+        this.size = this.width / 2;
+        this.setHit();
+    }
 
-	draw(CTX) {
-		if (!this.img) return; 
-
-		this.cellY = this.sprites[this.status] * this.cellHeight;
-
-		CTX.drawImage(
-			this.img,
-			this.cellX * this.cellWidth, 
-			this.cellY, 
-			this.cellWidth,
-			this.cellHeight, 
-			this.x, 
-			this.y,
-			this.width,
-			this.height 
-		);
-
-		this.showHit && this.hit.draw(CTX);
-	}
-
-	setHit() {
-		this.hit = new Circle(
-			this.x + this.width / 2,
-			this.y + this.height / 2,
-			this.size * 0.5, 5,
-			"rgba(0,0,255,.3)"
-		);
-	}
-
-	setSprites() {
-		this.sprites = {
-			'left': 1,
-			'right': 2
+	controlSprite(FRAMES) {
+		// Define a célula do sprite para um frame específico (ex: 0 para o primeiro frame)
+		this.cellX = 0; // ou qualquer outro valor fixo conforme necessário
+	
+		// Se você não quiser atualizar a célula do sprite periodicamente
+		const updateSprite = () => {
+			if (this.imgLoaded) {
+				// Você pode optar por não atualizar a célula do sprite
+				// Atualização não é necessária se você deseja que permaneça em um frame específico
+				requestAnimationFrame(updateSprite); // Continue pedindo atualização
+			} else {
+				requestAnimationFrame(updateSprite); // Continue pedindo atualização até a imagem ser carregada
+			}
 		};
+	
+		requestAnimationFrame(updateSprite); // Inicia a animação
 	}
 
-	setControlsKeys() {
-		this.controls = {
-			"d": "right",
-			"a": "left"
-		};
-	}
 
-	setMovements() {
-		this.movements = {
-			'right': { x: this.x + this.speed },
-			'left': { x: this.x - this.speed }
-		};
-	}
+    draw(CTX) {
+        if (!this.imgLoaded) return;
 
-	update() {
-		this.hit.x = this.x + this.width / 2;
-		this.hit.y = this.y + this.height / 2;
-	}
+        this.cellY = this.sprites[this.status] * this.cellHeight;
 
-	move(limits, key) {
-		this.setMovements();
+        CTX.drawImage(
+            this.img,
+            this.cellX * this.cellWidth,
+            this.cellY,
+            this.cellWidth,
+            this.cellHeight,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );
 
-		this.status = this.controls[key] ? this.controls[key] : this.status;
+        if (this.showHit) {
+            this.hit.draw(CTX);
+        }
+    }
 
-		let newx = this.movements[this.status]?.x;
+    setHit() {
+        this.hit = new Circle(
+            this.x + this.width / 2,
+            this.y + this.height / 2,
+            this.size * 0.5,
+            5,
+            "rgba(0,0,255,.3)"
+        );
+    }
 
-		if (newx !== undefined) {
-			this.x = Math.max(0, Math.min(limits.width - this.width, newx));
-		}
+    setSprites() {
+        this.sprites = {
+            'up': 0,
+            'right': 1,
+            'down': 2,
+            'left': 3
+        };
+    }
 
-		this.update();
-	}
+    setControlsKeys() {
+        this.controls = {
+            "d": "right",
+            "a": "left",
+            "w": "up",
+            "s": "down"
+        };
+    }
 
-	colide(other) {
-		return this.hit.colide(other);
-	}
+    update() {
+        this.hit.x = this.x + this.width / 2;
+        this.hit.y = this.y + this.height / 2;
+    }
 
-	collectYellowBall() {
-		this.size += 10;
-		this.width = this.size * 2; 
-		this.height = this.size * 2; 
-		this.setHit(); 
-	}
+    move(limits, key) {
+        this.setMovements();
+
+        this.status = this.controls[key] ? this.controls[key] : this.status;
+
+        let movement = this.movements[this.status];
+
+        if (movement) {
+            this.x = Math.max(0, Math.min(limits.width - this.width, movement.x));
+            this.y = Math.max(0, Math.min(limits.height - this.height, movement.y));
+        }
+
+        this.update();
+    }
+
+    colide(other) {
+        return this.hit.colide(other);
+    }
+
+    collectYellowBall() {
+        this.size += 10;
+        this.width = this.size * 2;
+        this.height = this.size * 2;
+        this.setHit();
+    }
+
+    setMovements() {
+        this.movements = {
+            'right': { x: this.x + this.speed, y: this.y },
+            'left': { x: this.x - this.speed, y: this.y },
+            'up': { x: this.x, y: this.y - this.speed },
+            'down': { x: this.x, y: this.y + this.speed }
+        };
+    }
 }
