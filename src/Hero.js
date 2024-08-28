@@ -51,24 +51,19 @@ export default class Hero extends Circle {
         this.setHit();
     }
 
-	controlSprite(FRAMES) {
-		// Define a célula do sprite para um frame específico (ex: 0 para o primeiro frame)
-		this.cellX = 0; // ou qualquer outro valor fixo conforme necessário
-	
-		// Se você não quiser atualizar a célula do sprite periodicamente
-		const updateSprite = () => {
-			if (this.imgLoaded) {
-				// Você pode optar por não atualizar a célula do sprite
-				// Atualização não é necessária se você deseja que permaneça em um frame específico
-				requestAnimationFrame(updateSprite); // Continue pedindo atualização
-			} else {
-				requestAnimationFrame(updateSprite); // Continue pedindo atualização até a imagem ser carregada
-			}
-		};
-	
-		requestAnimationFrame(updateSprite); // Inicia a animação
-	}
+    controlSprite(FRAMES) {
+        this.cellX = 0; // ou qualquer outro valor fixo conforme necessário
 
+        const updateSprite = () => {
+            if (this.imgLoaded) {
+                requestAnimationFrame(updateSprite); // Continue pedindo atualização
+            } else {
+                requestAnimationFrame(updateSprite); // Continue pedindo atualização até a imagem ser carregada
+            }
+        };
+
+        requestAnimationFrame(updateSprite); // Inicia a animação
+    }
 
     draw(CTX) {
         if (!this.imgLoaded) return;
@@ -133,8 +128,21 @@ export default class Hero extends Circle {
         let movement = this.movements[this.status];
 
         if (movement) {
-            this.x = Math.max(0, Math.min(limits.width - this.width, movement.x));
-            this.y = Math.max(0, Math.min(limits.height - this.height, movement.y));
+            this.x = movement.x;
+            this.y = movement.y;
+
+            // Checagem para transpassar as bordas
+            if (this.x > limits.width) {
+                this.x = -this.width; // Saiu pela direita, reaparece pela esquerda
+            } else if (this.x + this.width < 0) {
+                this.x = limits.width; // Saiu pela esquerda, reaparece pela direita
+            }
+
+            if (this.y > limits.height) {
+                this.y = -this.height; // Saiu por baixo, reaparece por cima
+            } else if (this.y + this.height < 0) {
+                this.y = limits.height; // Saiu por cima, reaparece por baixo
+            }
         }
 
         this.update();
