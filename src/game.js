@@ -24,7 +24,7 @@ let anime;
 let scoreSound;
 let themeSound;
 let gameoverSound;
-let backgroundImg; // Nova variável para a imagem de fundo
+let backgroundImg; 
 
 const init = async () => {
     score = 0;
@@ -34,8 +34,7 @@ const init = async () => {
     canvas = document.querySelector('canvas');
     ctx = canvas.getContext('2d');
 
-    // Carregar a imagem de fundo
-    backgroundImg = await loadImage('img/background_game.png');
+    backgroundImg = await loadImage('img/background_game_dragon.png');
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     hud(ctx, `Carregando... `, "#f00", canvas.height / 2 - 50);
