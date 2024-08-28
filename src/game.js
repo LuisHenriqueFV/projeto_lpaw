@@ -6,11 +6,13 @@ import Hero from "./Hero";
 import hud from "./hud";
 import { loadAudio, loadImage } from "./loaderAssets";
 
-const FRAMES = 60;
+const FRAMES = 70; 
 const groundY = 370; // Define a linha do chão
 const smile = new Smile(300, groundY, 20, 5, 'yellow');
-const hero = new Hero(300, groundY, 4, 82, 89, FRAMES);
+const hero = new Hero(300, groundY, 8, 82, 89, FRAMES); // Aumenta a velocidade inicial do herói
 const tangerine = new Circle(200, groundY, 10, 5, 'orange');
+const POINTS_FOR_YELLOWBALL = 50; // Pontuação para a YellowBall
+const POINTS_FOR_SMILE = 10; // Pontuação para o Smile
 let enemies = Array.from({ length: 3 });
 let ctx;
 let canvas;
@@ -106,14 +108,16 @@ const loop = () => {
             hero.grow(10); // Aumenta o tamanho do herói em 10 unidades
             console.clear();
             scoreSound.play();
-            console.count("PONTOS", ++score);
+            score += POINTS_FOR_YELLOWBALL; // Adiciona pontos para a YellowBall
+            console.count("PONTOS", score);
         }
 
         if (smile.colide(hero)) {
             hero.shrink(10); // Reduz o tamanho do herói em 10 unidades
             smile.moveRandomly(boundaries); // Move o Smile para uma nova posição aleatória
             console.clear();
-            console.count("PONTOS", ++score);
+            score += POINTS_FOR_SMILE; // Adiciona pontos para o Smile
+            console.count("PONTOS", score);
         }
 
         if (gameover) {

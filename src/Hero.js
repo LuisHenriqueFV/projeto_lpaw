@@ -4,7 +4,7 @@ import { loadImage } from "./loaderAssets";
 export default class Hero extends Circle {
     constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
         super(x, y, 0);
-        
+
         this.cellWidth = 191; // Atualizado para corresponder ao tamanho do sprite
         this.cellHeight = 161; // Atualizado para corresponder ao tamanho do sprite
         this.cellX = 0;
@@ -17,7 +17,8 @@ export default class Hero extends Circle {
         this.height = height;
         this.size = this.width;
 
-        this.speed = velocity * this.spriteSpeed;
+        this.baseSpeed = velocity; // Velocidade base
+        this.speed = this.baseSpeed * this.spriteSpeed; // Velocidade atual
         this.status = 'right';
 
         this.showHit = false;
@@ -145,6 +146,18 @@ export default class Hero extends Circle {
 
     collectYellowBall() {
         this.size += 10;
+        this.width = this.size * 2;
+        this.height = this.size * 2;
+        this.setHit();
+    }
+
+    increaseSpeed(amount) {
+        this.speed += amount; 
+    }
+
+    collectSmile() {
+        this.increaseSpeed(5); 
+        this.size += 10; 
         this.width = this.size * 2;
         this.height = this.size * 2;
         this.setHit();
