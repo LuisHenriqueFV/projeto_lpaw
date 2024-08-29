@@ -8,7 +8,6 @@ export default class Smile extends Circle {
     }
 
     paint(ctx) {
-        // Desenhar o Smile
         this.draw(ctx);
         this.circ(ctx,
             this.x - this.size / 2.5,
