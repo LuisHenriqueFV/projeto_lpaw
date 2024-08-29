@@ -42,7 +42,7 @@ export default class Corvo extends Circle {
                         this.spriteFrame = 0;
                     }
                     this.cellX = this.spriteFrame;
-                    this.frameCounter = 0; // Reinicia o contador
+                    this.frameCounter = 0; 
                 }
                 requestAnimationFrame(updateSprite);
             } else {
