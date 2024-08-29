@@ -2,8 +2,8 @@ import Circle from './geometries/Circle';
 
 export default class Smile extends Circle {
 
-    constructor(x, groundY, size, speed = 10, color = "#00f") {
-        super(x, groundY, size, speed, color);
+    constructor(x, y, size, speed = 10, color = "#00f") {
+        super(x, y, size, speed, color);
         this.status = 'ArrowDown';
     }
 
@@ -32,6 +32,14 @@ export default class Smile extends Circle {
         ctx.stroke();
     }
 
+    colide(other) {
+        const collisionRadius = this.size * 0.9; // Tamanho reduzido para colisão
+        const dx = this.x - other.x;
+        const dy = this.y - other.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < (collisionRadius + other.size);
+    }
+
     limits(limits) {
         this.x = this.x + this.size > limits.width ? limits.width - this.size : this.x;
         this.x = this.x - this.size < 0 ? this.size : this.x;
@@ -42,6 +50,6 @@ export default class Smile extends Circle {
 
     moveRandomly(limits) {
         this.x = Math.random() * (limits.width - this.size) + this.size;
-        // this.y = Math.random() * (limits.height - this.size) + this.size;
+        this.y = Math.random() * (limits.height - this.size) + this.size;
     }
 }

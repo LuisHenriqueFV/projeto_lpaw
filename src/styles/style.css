@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #000; /* Cor de fundo opcional para contraste */
+    background-color: #000;
     position: relative;
 }
 
@@ -14,12 +14,10 @@ canvas {
 
 #score-table {
     position: absolute;
-    top: 100px; /* Ajuste a posição conforme necessário */
-    right: 20px; /* Ajuste a posição conforme necessário */
-    /* background-color: rgba(138, 38, 38, 0.8);  */
-	color: white;
+    top: 20px;
+    right: center;
+    color: white;
     padding: 10px;
-    border-radius: 20px;
 }
 
 #score-table h2 {
@@ -30,4 +28,18 @@ canvas {
 #score-table p {
     margin: 0;
     font-size: 24px;
+}
+
+#messages {
+    position: absolute;
+    top: 92%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(155, 158, 152);
+    text-align: center;
+}
+
+#messages p {
+    margin: 10px 0;
+    font-size: 18px;
 }
