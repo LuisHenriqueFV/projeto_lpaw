@@ -1,38 +1,18 @@
-import Circle from './geometries/Circle';
-
-export default class Smile extends Circle {
-
-    constructor(x, y, size, speed = 10, color = "#00f") {
-        super(x, y, size, speed, color);
-        this.status = 'ArrowDown';
+export default class Smile {
+    constructor(x, y, size, speed = 10, image) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.speed = speed;
+        this.image = image;
     }
 
     paint(ctx) {
-        this.draw(ctx);
-        this.circ(ctx,
-            this.x - this.size / 2.5,
-            this.y - this.size / 4,
-            this.size * .1, 1, 'black', 'black');
-
-        this.circ(ctx,
-            this.x + this.size / 2.5,
-            this.y - this.size / 4,
-            this.size * .1, 1, 'black', 'black');
-
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.arc(this.x, this.y + this.size / 4, this.size / 2, 0, Math.PI);
-        ctx.strokeStyle = "#000";
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.stroke();
+        ctx.drawImage(this.image, this.x - this.size, this.y - this.size, this.size * 2, this.size * 2);
     }
 
     colide(other) {
-        const collisionRadius = this.size * 0.9; // Tamanho reduzido para colisão
+        const collisionRadius = this.size * 0.5; 
         const dx = this.x - other.x;
         const dy = this.y - other.y;
         const distance = Math.sqrt(dx * dx + dy * dy);

@@ -7,9 +7,10 @@ import hud from "./hud";
 import { loadAudio, loadImage } from "./loaderAssets";
 
 const FRAMES = 70;
-const smile = new Smile(300, 200, 20, 5, 'yellow');
-const hero = new Hero(300, 200, 8, 82, 89, FRAMES);
-const tangerine = new Circle(200, 200, 10, 5, 'orange');
+let corvoImg;
+let smile;
+let hero;
+let tangerine;
 const POINTS_FOR_YELLOWBALL = 50;
 const POINTS_FOR_SMILE = 10;
 let enemies = Array.from({ length: 3 });
@@ -33,26 +34,29 @@ const init = async () => {
     ctx = canvas.getContext('2d');
 
     backgroundImg = await loadImage('img/background_game_dragon.png');
+    corvoImg = await loadImage('img/corvo.png');
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     hud(ctx, `Carregando... `, "#f00", canvas.height / 2 - 50);
 
-
- 
     scoreSound = await loadAudio('sounds/score.mp3');
     scoreSound.volume = .5;
     gameoverSound = await loadAudio('sounds/gameover.mp3');
-    gameoverSound.volume = .2;
+    gameoverSound.volume = .1;
     themeSound = await loadAudio('sounds/theme.mp3');
     themeSound.volume = .3;
     themeSound.loop = true;
-    smileSound = await loadAudio('sounds/smile.mp3'); 
+    smileSound = await loadAudio('sounds/smile.mp3');
     smileSound.volume = .5;
 
     boundaries = {
         width: canvas.width,
         height: canvas.height
     };
+
+    smile = new Smile(300, 200, 20, 5, corvoImg); // Instanciando o Smile aqui
+    hero = new Hero(300, 200, 8, 82, 89, FRAMES); // Instanciando o Hero aqui
+    tangerine = new Circle(200, 200, 10, 5, 'orange'); // Instanciando a Tangerine aqui
 
     enemies = enemies.map(() => new Enemy(
         Math.random() * canvas.width,
