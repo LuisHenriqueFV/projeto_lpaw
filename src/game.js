@@ -56,7 +56,7 @@ const init = async () => {
         Math.random() * canvas.height,
         10,
         5,
-        'red'
+        'blue'
     ));
 
     tangerine.restart = () => {
