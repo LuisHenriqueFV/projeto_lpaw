@@ -5,38 +5,46 @@ export default class Hero extends Circle {
     constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
         super(x, y, 0);
 
-        this.cellWidth = 191; // Atualizado para corresponder ao tamanho do sprite
-        this.cellHeight = 161; // Atualizado para corresponder ao tamanho do sprite
+        // Dimensões de cada célula do sprite
+        this.cellWidth = 191; 
+        this.cellHeight = 161; 
         this.cellX = 0;
         this.cellY = 0;
 
+        // Configuração do sprite
         this.totalSprites = 12; 
         this.spriteSpeed = 1;
 
+        // Dimensões do herói
         this.width = width;
         this.height = height;
         this.size = this.width;
 
-        this.baseSpeed = velocity; // Velocidade base
-        this.speed = this.baseSpeed * this.spriteSpeed; // Velocidade atual
-        this.status = 'right';
+        // Velocidade do herói
+        this.baseSpeed = velocity;
+        this.speed = this.baseSpeed * this.spriteSpeed; 
+        this.status = 'right'; // Direção inicial
 
-        this.showHit = false;
+        this.showHit = false; // Controle da exibição do hitbox
 
+        // Carrega a imagem do sprite do herói
         this.imgLoaded = false;
         loadImage('img/flying_dragon-red.png').then(img => {
             this.img = img;
             this.imgLoaded = true;
         });
 
+        // Configurações iniciais
         this.setHit();
         this.setControlsKeys();
         this.setSprites();
 
+        // Controle da animação do sprite
         this.lastFrameTime = 0;
         this.controlSprite(FRAMES);
     }
 
+    // Aumenta o tamanho do herói
     grow(amount) {
         this.width += amount;
         this.height += amount;
@@ -44,6 +52,7 @@ export default class Hero extends Circle {
         this.setHit();
     }
 
+    // Diminui o tamanho do herói
     shrink(amount) {
         this.width = Math.max(this.width - amount, 32);
         this.height = Math.max(this.height - amount, 32);
@@ -51,20 +60,20 @@ export default class Hero extends Circle {
         this.setHit();
     }
 
+    // Controla a animação do sprite
     controlSprite(FRAMES) {
-        this.cellX = 0; // ou qualquer outro valor fixo conforme necessário
-
-        const updateSprite = () => {
+        const atualizarSprite = () => {
             if (this.imgLoaded) {
-                requestAnimationFrame(updateSprite); // Continue pedindo atualização
+                requestAnimationFrame(atualizarSprite); 
             } else {
-                requestAnimationFrame(updateSprite); // Continue pedindo atualização até a imagem ser carregada
+                requestAnimationFrame(atualizarSprite);
             }
         };
 
-        requestAnimationFrame(updateSprite); // Inicia a animação
+        requestAnimationFrame(atualizarSprite); 
     }
 
+    // Desenha o herói na tela
     draw(CTX) {
         if (!this.imgLoaded) return;
 
@@ -87,6 +96,7 @@ export default class Hero extends Circle {
         }
     }
 
+    // Define a área de colisão (hitbox) do herói
     setHit() {
         this.hit = new Circle(
             this.x + this.width / 2,
@@ -97,6 +107,7 @@ export default class Hero extends Circle {
         );
     }
 
+    // Define os sprites para cada direção
     setSprites() {
         this.sprites = {
             'up': 0,
@@ -106,6 +117,7 @@ export default class Hero extends Circle {
         };
     }
 
+    // Define as teclas de controle do herói
     setControlsKeys() {
         this.controls = {
             "d": "right",
@@ -115,62 +127,56 @@ export default class Hero extends Circle {
         };
     }
 
+    // Atualiza a posição do hitbox com base na posição do herói
     update() {
         this.hit.x = this.x + this.width / 2;
         this.hit.y = this.y + this.height / 2;
     }
 
+    // Move o herói com base nas teclas pressionadas
     move(limits, key) {
         this.setMovements();
 
-        this.status = this.controls[key] ? this.controls[key] : this.status;
+        this.status = this.controls[key] || this.status;
 
-        let movement = this.movements[this.status];
+        const movimento = this.movements[this.status];
 
-        if (movement) {
-            this.x = movement.x;
-            this.y = movement.y;
+        if (movimento) {
+            this.x = movimento.x;
+            this.y = movimento.y;
 
-            // Checagem para transpassar as bordas
-            if (this.x > limits.width) {
-                this.x = -this.width; // Saiu pela direita, reaparece pela esquerda
-            } else if (this.x + this.width < 0) {
-                this.x = limits.width; // Saiu pela esquerda, reaparece pela direita
-            }
-
-            if (this.y > limits.height) {
-                this.y = -this.height; // Saiu por baixo, reaparece por cima
-            } else if (this.y + this.height < 0) {
-                this.y = limits.height; // Saiu por cima, reaparece por baixo
-            }
+            // Tratamento para mover o herói para o lado oposto da tela se ele sair dos limites
+            if (this.x > limits.width) this.x = -this.width;
+            if (this.x + this.width < 0) this.x = limits.width;
+            if (this.y > limits.height) this.y = -this.height;
+            if (this.y + this.height < 0) this.y = limits.height;
         }
 
         this.update();
     }
 
+    // Verifica se há colisão com outro objeto
     colide(other) {
         return this.hit.colide(other);
     }
 
+    // Aumenta o tamanho do herói ao coletar a Tangerine
     collectYellowBall() {
-        this.size += 10;
-        this.width = this.size * 2;
-        this.height = this.size * 2;
-        this.setHit();
+        this.grow(10);
     }
 
+    // Aumenta a velocidade do herói
     increaseSpeed(amount) {
-        this.speed += amount; 
+        this.speed += amount;
     }
 
+    // Aumenta o tamanho e a velocidade do herói ao coletar o Corvo
     collectSmile() {
-        this.increaseSpeed(5); 
-        this.size += 10; 
-        this.width = this.size * 2;
-        this.height = this.size * 2;
-        this.setHit();
+        this.increaseSpeed(5);
+        this.grow(10);
     }
 
+    // Define os movimentos do herói com base na direção
     setMovements() {
         this.movements = {
             'right': { x: this.x + this.speed, y: this.y },
