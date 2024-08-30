@@ -13,7 +13,7 @@ export default class Hero extends Circle {
 
         // Configuração do sprite
         this.totalSprites = 64; 
-        this.spriteSpeed = 10;
+        this.spriteSpeed = 7;
 
         // Dimensões do herói
         this.width = width;
