@@ -21,7 +21,6 @@ function handleKeyPress(event){
 function removeKey(event){
     console.log(keys)
     keys = keys.filter(key=>key!==event.key)
-    // console.log(keys)
 }
 
 const hasKey = (searchKey)=>keys.find(key=>searchKey===key)

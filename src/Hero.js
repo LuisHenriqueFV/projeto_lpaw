@@ -6,14 +6,14 @@ export default class Hero extends Circle {
         super(x, y, 0);
 
         // Dimensões de cada célula do sprite
-        this.cellWidth = 191; 
-        this.cellHeight = 161; 
+        this.cellWidth = 210; 
+        this.cellHeight = 160; 
         this.cellX = 0;
         this.cellY = 0;
 
         // Configuração do sprite
-        this.totalSprites = 12; 
-        this.spriteSpeed = 1;
+        this.totalSprites = 64; 
+        this.spriteSpeed = 10;
 
         // Dimensões do herói
         this.width = width;
@@ -22,14 +22,14 @@ export default class Hero extends Circle {
 
         // Velocidade do herói
         this.baseSpeed = velocity;
-        this.speed = this.baseSpeed * this.spriteSpeed; 
+        this.speed = this.baseSpeed; 
         this.status = 'right'; // Direção inicial
 
         this.showHit = false; // Controle da exibição do hitbox
 
         // Carrega a imagem do sprite do herói
         this.imgLoaded = false;
-        loadImage('img/flying_dragon-red.png').then(img => {
+        loadImage('img/reddragonfly_sprite.png').then(img => {
             this.img = img;
             this.imgLoaded = true;
         });
@@ -62,26 +62,30 @@ export default class Hero extends Circle {
 
     // Controla a animação do sprite
     controlSprite(FRAMES) {
-        const atualizarSprite = () => {
+        const updateSprite = () => {
             if (this.imgLoaded) {
-                requestAnimationFrame(atualizarSprite); 
+                this.frameCounter = (this.frameCounter || 0) + 2;
+                if (this.frameCounter >= FRAMES / this.spriteSpeed) {
+                    this.cellX = (this.cellX + 1) % 4; // Muda para o próximo frame horizontal
+                    this.frameCounter = 0;
+                }
+                requestAnimationFrame(updateSprite);
             } else {
-                requestAnimationFrame(atualizarSprite);
+                requestAnimationFrame(updateSprite);
             }
         };
-
-        requestAnimationFrame(atualizarSprite); 
+        requestAnimationFrame(updateSprite);
     }
 
     // Desenha o herói na tela
     draw(CTX) {
         if (!this.imgLoaded) return;
-
-        this.cellY = this.sprites[this.status] * this.cellHeight;
-
+    
+        this.cellY = this.sprites[this.status] * this.cellHeight; // Mantém a direção
+    
         CTX.drawImage(
             this.img,
-            this.cellX * this.cellWidth,
+            this.cellX * this.cellWidth, // Altera para usar o frame atual do sprite horizontalmente
             this.cellY,
             this.cellWidth,
             this.cellHeight,
@@ -90,7 +94,7 @@ export default class Hero extends Circle {
             this.width,
             this.height
         );
-
+    
         if (this.showHit) {
             this.hit.draw(CTX);
         }
@@ -111,9 +115,9 @@ export default class Hero extends Circle {
     setSprites() {
         this.sprites = {
             'up': 0,
-            'right': 1,
-            'down': 2,
-            'left': 3
+            'right': 4,
+            'down': 8,
+            'left': 12
         };
     }
 
@@ -160,20 +164,15 @@ export default class Hero extends Circle {
         return this.hit.colide(other);
     }
 
-    // Aumenta o tamanho do herói ao coletar a Tangerine
-    collectYellowBall() {
-        this.grow(10);
+    // Aumenta o tamanho do herói ao coletar uma energia
+    collectCorvo() {
+        this.increaseSpeed(2); // Aumenta a velocidade do herói
+        this.grow(10);         // Aumenta o tamanho do herói
     }
 
     // Aumenta a velocidade do herói
     increaseSpeed(amount) {
         this.speed += amount;
-    }
-
-    // Aumenta o tamanho e a velocidade do herói ao coletar o Corvo
-    collectSmile() {
-        this.increaseSpeed(5);
-        this.grow(10);
     }
 
     // Define os movimentos do herói com base na direção

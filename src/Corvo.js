@@ -13,7 +13,7 @@ export default class Corvo extends Circle {
 
         // Configuração do sprite
         this.totalSprites = 16; 
-        this.spriteSpeed = 20;
+        this.spriteSpeed = 14;
         this.spriteFrame = 0;
         this.frameCounter = 0; // Contador para controlar a troca de sprites
 
