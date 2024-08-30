@@ -1,8 +1,8 @@
-import Circle from './geometries/Circle';
+import Colisao from './geometries/Colisao';
 import { loadImage } from "./loaderAssets";
 
-export default class Corvo extends Circle {
-    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/energia_azul.png') {
+export default class Energia extends Colisao {
+    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/energia.png') {
         super(x, y, size);
 
         // Dimensões de cada célula do sprite
@@ -17,10 +17,10 @@ export default class Corvo extends Circle {
         this.spriteFrame = 0;
         this.frameCounter = 0; // Contador para controlar a troca de sprites
 
-        // Velocidade do Corvo
+        // Velocidade da energia
         this.speed = speed;
 
-        // Carrega a imagem do sprite do Corvo
+        // Carrega a imagem do sprite do energia
         this.imgLoaded = false;
         loadImage(imageSrc).then(img => {
             this.img = img;
@@ -56,7 +56,7 @@ export default class Corvo extends Circle {
         requestAnimationFrame(updateSprite);
     }
 
-    // Desenha o Corvo na tela
+    // Desenha o energia na tela
     paint(ctx) {
         if (!this.imgLoaded) return;
 
@@ -73,7 +73,7 @@ export default class Corvo extends Circle {
         );
     }
 
-    // Move o Corvo de forma aleatória
+    // Move o energia de forma aleatória
     moveRandomly(limits) {
         this.x = Math.random() * (limits.width - this.size) + this.size;
         this.y = Math.random() * (limits.height - this.size) + this.size;
@@ -88,7 +88,7 @@ export default class Corvo extends Circle {
         return distance < (collisionRadius + other.size);
     }
 
-    // Mantém o Corvo dentro dos limites
+    // Mantém a energia dentro dos limites
     limits(limits) {
         this.x = this.x + this.size > limits.width ? limits.width - this.size : this.x;
         this.x = this.x - this.size < 0 ? this.size : this.x;

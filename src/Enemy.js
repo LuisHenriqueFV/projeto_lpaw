@@ -1,8 +1,8 @@
-import Circle from "./geometries/Circle";
+import Colisao from "./geometries/Colisao";
 import { loadImage } from "./loaderAssets";
 
-export default class Enemy extends Circle {
-    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/explode3.png') {
+export default class Enemy extends Colisao {
+    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
         super(x, y, size);
 
         // Dimensões de cada célula do sprite

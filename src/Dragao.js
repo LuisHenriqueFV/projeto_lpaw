@@ -1,7 +1,7 @@
-import Circle from './geometries/Circle';
+import Colisao from './geometries/Colisao';
 import { loadImage } from "./loaderAssets";
 
-export default class Hero extends Circle {
+export default class Dragao extends Colisao {
     constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
         super(x, y, 0);
 
@@ -13,7 +13,7 @@ export default class Hero extends Circle {
 
         // Configuração do sprite
         this.totalSprites = 64; 
-        this.spriteSpeed = 12;
+        this.spriteSpeed = 24;
 
         // Dimensões do herói
         this.width = width;
@@ -102,7 +102,7 @@ export default class Hero extends Circle {
 
     // Define a área de colisão (hitbox) do herói
     setHit() {
-        this.hit = new Circle(
+        this.hit = new Colisao(
             this.x + this.width / 2,
             this.y + this.height / 2,
             this.size * 0.5,
@@ -165,7 +165,7 @@ export default class Hero extends Circle {
     }
 
     // Aumenta o tamanho do herói ao coletar uma energia
-    collectCorvo() {
+    collectEnergia() {
         this.increaseSpeed(2); // Aumenta a velocidade do herói
         this.grow(10);         // Aumenta o tamanho do herói
     }

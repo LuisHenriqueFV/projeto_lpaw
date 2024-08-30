@@ -1,18 +1,18 @@
 import { keyPress, key } from "./keyboard"; // Importa funções para capturar teclas
-import Corvo from "./Corvo"; // Importa a classe Corvo
+import Energia from "./Energia"; // Importa a classe energia
 import Enemy from "./Enemy"; // Importa a classe Enemy
-import Hero from "./Hero"; // Importa a classe Hero
+import Dragao from "./Dragao"; // Importa a classe Dragao
 import hud from "./hud"; // Importa a função hud para exibir mensagens na tela
 import { loadAudio, loadImage } from "./loaderAssets"; // Importa funções para carregar áudio e imagens
 
 const FRAMES = 70; // Taxa de quadros por segundo
-let corvoImg, corvo, hero, tangerineImg, tangerine; // Variáveis para o Corvo, Herói e Tangerina
+let energiaImg, energia, dragao, tangerineImg, tangerine; // Variáveis para a energia, Herói e Tangerina
 const POINTS_FOR_YELLOWBALL = 50; // Pontos por coletar a tangerina
-const POINTS_FOR_CORVO = 10; // Pontos por acertar o corvo
+const POINTS_FOR_ENERGIA = 10; // Pontos por acertar a energia
 let enemies = Array.from({ length: 2 }); // Array para armazenar inimigos
 let ctx, canvas, gameover, boundaries, score, anime; // Variáveis gerais para o jogo
 let nextEnemyScoreThreshold = 100;
-let corvoSound, scoreSound, themeSound, gameoverSound, backgroundImg; // Sons e imagem de fundo
+let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg; // Sons e imagem de fundo
 
 // Função principal de inicialização
 const init = async () => {
@@ -24,12 +24,12 @@ const init = async () => {
 
     // Carrega imagens e sons
     backgroundImg = await loadImage('img/background_game_dragon.png');
-    corvoImg = await loadImage('img/explode3.png');
+    energiaImg = await loadImage('img/fogo.png');
     tangerineImg = await loadImage('img/star.png');
-    scoreSound = await loadAudio('sounds/score.mp3');
+    scoreSound = await loadAudio('sounds/star.mp3');
     scoreSound.volume = .5;
-    corvoSound = await loadAudio('sounds/smile.mp3');
-    corvoSound.volume = .5;
+    energiaSound = await loadAudio('sounds/energia.mp3');
+    energiaSound.volume = .5;
     gameoverSound = await loadAudio('sounds/gameover.mp3');
     gameoverSound.volume = .1;
     themeSound = await loadAudio('sounds/theme.mp3');
@@ -43,8 +43,8 @@ const init = async () => {
     };
 
     // Instancia os objetos do jogo
-    corvo = new Corvo(300, 200, 20, 5, corvoImg);
-    hero = new Hero(300, 200, 8, 82, 89, FRAMES);
+    energia = new Energia(300, 200, 20, 5, energiaImg);
+    dragao = new Dragao(300, 200, 8, 82, 89, FRAMES);
     tangerine = {
         x: 200,
         y: 200,
@@ -59,7 +59,7 @@ const init = async () => {
             this.y = Math.random() * (boundaries.height - this.height);
         }
     };
-    enemies = enemies.map(() => new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, corvoImg));
+    enemies = enemies.map(() => new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
 
     // Captura eventos de teclado
     keyPress(window);
@@ -92,12 +92,12 @@ const displayGameOverMessage = () => {
     document.getElementById('restart-message').textContent = `Pressione F5 para reiniciar!`;
 };
 
-const colideTangerine = (circle, rect) => {
-    const distX = Math.abs(circle.x + circle.width / 2 - rect.x - rect.width / 2);
-    const distY = Math.abs(circle.y + circle.height / 2 - rect.y - rect.height / 2);
+const colideTangerine = (colisao, rect) => {
+    const distX = Math.abs(colisao.x + colisao.width / 2 - rect.x - rect.width / 2);
+    const distY = Math.abs(colisao.y + colisao.height / 2 - rect.y - rect.height / 2);
 
-    if (distX > (rect.width / 2 + circle.width / 2)) return false;
-    if (distY > (rect.height / 2 + circle.height / 2)) return false;
+    if (distX > (rect.width / 2 + colisao.width / 2)) return false;
+    if (distY > (rect.height / 2 + colisao.height / 2)) return false;
 
     if (distX <= (rect.width / 2)) return true;
     if (distY <= (rect.height / 2)) return true;
@@ -105,7 +105,7 @@ const colideTangerine = (circle, rect) => {
     const dx = distX - rect.width / 2;
     const dy = distY - rect.height / 2;
 
-    return (dx * dx + dy * dy <= (circle.size * circle.size));
+    return (dx * dx + dy * dy <= (colisao.size * colisao.size));
 };
 
 const addEnemy = () => {
@@ -119,10 +119,10 @@ const playScoreSound = () => {
     scoreSound.play();
 };
 
-const playCorvoSound = () => {
-    // Reinicia a reprodução do som do corvo
-    corvoSound.currentTime = 0; // Volta ao início do áudio
-    corvoSound.play();
+const playEnergiaSound = () => {
+    // Reinicia a reprodução do som da energia
+    energiaSound.currentTime = 0; // Volta ao início do áudio
+    energiaSound.play();
 };
 
 // Loop principal do jogo
@@ -134,36 +134,36 @@ const loop = () => {
         // Desenha a tangerina
         tangerine.draw(ctx);
 
-        // Desenha e move o corvo
-        corvo.paint(ctx);
+        // Desenha e move a energia
+        energia.paint(ctx);
 
         // Move e desenha o herói com base nas teclas pressionadas
-        hero.move(boundaries, key);
-        hero.draw(ctx);
+        dragao.move(boundaries, key);
+        dragao.draw(ctx);
 
         // Move e desenha os inimigos
         enemies.forEach(e => {
             e.move(boundaries);
             e.draw(ctx);
-            if (hero.colide(e)) {
+            if (dragao.colide(e)) {
                 gameover = true;
             }
         });
 
-        // Lógica para quando o herói ou o corvo colidem com a tangerina
-        if (colideTangerine(hero, tangerine) || corvo.colide(tangerine)) {
+        // Lógica para quando o herói ou o energia colidem com a tangerina
+        if (colideTangerine(dragao, tangerine) || energia.colide(tangerine)) {
             tangerine.restart();
-            hero.grow(10);
+            dragao.grow(10);
             playScoreSound(); // Reproduz o som de pontuação
             score += POINTS_FOR_YELLOWBALL;
         }
 
-        // Lógica para quando o corvo colide com o herói
-        if (corvo.colide(hero)) {
-            hero.shrink(10);
-            corvo.moveRandomly(boundaries);
-            score += POINTS_FOR_CORVO;
-            playCorvoSound(); // Reproduz o som do corvo
+        // Lógica para quando a energia colide com o herói
+        if (energia.colide(dragao)) {
+            dragao.shrink(10);
+            energia.moveRandomly(boundaries);
+            score += POINTS_FOR_ENERGIA;
+            playEnergiaSound(); // Reproduz o som do energia
         }
 
         // Verifica se o jogador atingiu a pontuação para adicionar um novo inimigo

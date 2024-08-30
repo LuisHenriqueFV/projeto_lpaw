@@ -1,11 +1,35 @@
+@font-face {
+    font-family: 'CustomFont';
+    src: url('src/font/font.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'TituloFont';
+    src: url('src/font/titulo.ttf') format('opentype');
+}
+
 body {
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 80vh;
     background-color: #000;
     position: relative;
+    font-family: 'CustomFont', sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+}
+
+header {
+    color: rgb(216, 52, 52);
+    font-family: 'TituloFont';
+    font-size: 56px;
+    text-align: center; /* Centraliza o texto */
 }
 
 canvas {
@@ -15,7 +39,7 @@ canvas {
 #score-table {
     position: absolute;
     top: 20px;
-    right: center;
+    right: 20px; 
     color: white;
     padding: 10px;
 }
@@ -32,7 +56,7 @@ canvas {
 
 #messages {
     position: absolute;
-    top: 92%;
+    top: 110%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: rgb(155, 158, 152);
@@ -41,5 +65,27 @@ canvas {
 
 #messages p {
     margin: 10px 0;
+    font-size: 20px;
+}
+
+#controls {
+    position: absolute;
+    bottom: 200px; /* Ajuste a posição conforme necessário */
+    left: 10%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#controls h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+#controls p {
+    margin: 5px 0;
     font-size: 18px;
 }

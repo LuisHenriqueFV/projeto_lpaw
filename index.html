@@ -7,18 +7,30 @@
     <link rel="shortcut icon" href="#">
     <title>Dragon Quest</title>
     <script type='module' src="src/main.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="score-table">
-        <h2>Pontuação</h2>
-        <p id="score">Score: 0</p>
-    </div>    
-    <canvas width="900" height="500" tabindex="1">
-        Seu navegador não suporta a tag canvas!
-    </canvas>
-    <div id="messages">
-        <p id="game-over-message"></p>
-        <p id="restart-message"></p>
+    <div class="container">
+        <header>
+            <h1>Dragon Quest</h1>
+        </header>
+        <div id="score-table">
+            <p id="score">Pontuação: 0</p>
+        </div>    
+        <canvas width="900" height="500" tabindex="1">
+            Seu navegador não suporta a tag canvas!
+        </canvas>
+        <div id="messages">
+            <p id="game-over-message"></p>
+            <p id="restart-message"></p>
+        </div>
+        <div id="controls">
+            <h2>Controles</h2>
+            <p><strong>W:</strong> Mover para cima</p>
+            <p><strong>A:</strong> Mover para a esquerda</p>
+            <p><strong>S:</strong> Mover para baixo</p>
+            <p><strong>D:</strong> Mover para a direita</p>
+        </div>
     </div>
 </body>
 </html>
