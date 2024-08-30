@@ -2,17 +2,17 @@ import Circle from './geometries/Circle';
 import { loadImage } from "./loaderAssets";
 
 export default class Corvo extends Circle {
-    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/explode3.png') {
+    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/energia_azul.png') {
         super(x, y, size);
 
         // Dimensões de cada célula do sprite
-        this.cellWidth = 48; 
-        this.cellHeight = 46; 
+        this.cellWidth = 87; 
+        this.cellHeight = 98; 
         this.cellX = 0;
         this.cellY = 0;
 
         // Configuração do sprite
-        this.totalSprites = 7; 
+        this.totalSprites = 16; 
         this.spriteSpeed = 20;
         this.spriteFrame = 0;
         this.frameCounter = 0; // Contador para controlar a troca de sprites
@@ -28,11 +28,11 @@ export default class Corvo extends Circle {
         });
 
         // Controle da animação do sprite
-        this.controlSprite(FRAMES);
+        this.controlSprite();
     }
 
     // Controla a animação do sprite
-    controlSprite(FRAMES) {
+    controlSprite() {
         const updateSprite = () => {
             if (this.imgLoaded) {
                 this.frameCounter++;
@@ -41,7 +41,10 @@ export default class Corvo extends Circle {
                     if (this.spriteFrame >= this.totalSprites) {
                         this.spriteFrame = 0;
                     }
-                    this.cellX = this.spriteFrame;
+                    
+                    // Calcula a posição correta do frame na sprite sheet
+                    this.cellX = (this.spriteFrame % 4) * this.cellWidth;
+                    this.cellY = Math.floor(this.spriteFrame / 4) * this.cellHeight;
                     this.frameCounter = 0; // Reinicia o contador
                 }
                 requestAnimationFrame(updateSprite);
@@ -59,8 +62,8 @@ export default class Corvo extends Circle {
 
         ctx.drawImage(
             this.img,
-            this.cellX * this.cellWidth,
-            this.cellY * this.cellHeight,
+            this.cellX, // Posição X no sprite
+            this.cellY, // Posição Y no sprite
             this.cellWidth,
             this.cellHeight,
             this.x - this.size,
