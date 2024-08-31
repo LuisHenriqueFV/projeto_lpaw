@@ -1,6 +1,5 @@
-const hud = (ctx,texto, color = "#00f",y=0)=>{
-	let textSize = 14;
-	ctx.font = `bold ${textSize}px sans`;
+const hud = (ctx,texto, color = "red",y=0)=>{
+	ctx.font = 'bold 24px Arial';
 	ctx.textBaseline = "top";
 	let textMetric = ctx.measureText(texto)
 	ctx.fillStyle = color;
@@ -10,3 +9,5 @@ const hud = (ctx,texto, color = "#00f",y=0)=>{
 }
 
 export default hud
+
+

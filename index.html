@@ -13,10 +13,10 @@
     <div class="container">
         <header>
             <h1>Dragon Quest</h1>
+            <div id="score-table">
+                <p id="score">Score: 0</p>
+            </div>  
         </header>
-        <div id="score-table">
-            <p id="score">Score: 0</p>
-        </div>    
         <canvas width="900" height="500" tabindex="1">
             Seu navegador não suporta a tag canvas!
         </canvas>
@@ -24,13 +24,29 @@
             <p id="game-over-message"></p>
             <p id="restart-message"></p>
         </div>
-        <div id="controls">
-            <h2>Controles</h2>
-            <p><strong>W:</strong> Mover para cima</p>
-            <p><strong>A:</strong> Mover para a esquerda</p>
-            <p><strong>S:</strong> Mover para baixo</p>
-            <p><strong>D:</strong> Mover para a direita</p>
+        <div id="controls-container">
+            <h2 id="toggle-controls">Tutorial</h2>
+            <div id="controls">
+                <h2>Controles</h2>
+                <p><strong>W:</strong> Mover para cima</p>
+                <p><strong>A:</strong> Mover para a esquerda</p>
+                <p><strong>S:</strong> Mover para baixo</p>
+                <p><strong>D:</strong> Mover para a direita</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('toggle-controls').addEventListener('click', function() {
+            const controls = document.getElementById('controls');
+            if (controls.style.display === 'none' || controls.style.display === '') {
+                controls.style.display = 'block';
+                this.textContent = 'Ocultar Tutorial';
+            } else {
+                controls.style.display = 'none';
+                this.textContent = 'Tutorial';
+            }
+        });
+    </script>
 </body>
 </html>

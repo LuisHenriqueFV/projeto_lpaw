@@ -6,7 +6,7 @@ import hud from "./hud"; // Importa a função hud para exibir mensagens na tela
 import { loadAudio, loadImage } from "./loaderAssets"; // Importa funções para carregar áudio e imagens
 
 const FRAMES = 70; // Taxa de quadros por segundo
-let energiaImg, energia, dragao, tangerineImg, tangerine; // Variáveis para a energia, Herói e Tangerina
+let energiaImg, energia, dragao, starImg, star; // Variáveis para a energia, Herói e Tangerina
 const POINTS_FOR_YELLOWBALL = 50; // Pontos por coletar a tangerina
 const POINTS_FOR_ENERGIA = 10; // Pontos por acertar a energia
 let enemies = Array.from({ length: 2 }); // Array para armazenar inimigos
@@ -23,9 +23,9 @@ const init = async () => {
     ctx = canvas.getContext('2d'); // Obtém o contexto de renderização 2D
 
     // Carrega imagens e sons
-    backgroundImg = await loadImage('img/background_game_dragon.png');
+    backgroundImg = await loadImage('img/background_game.png');
     energiaImg = await loadImage('img/fogo.png');
-    tangerineImg = await loadImage('img/star.png');
+    starImg = await loadImage('img/star.png');
     scoreSound = await loadAudio('sounds/star.mp3');
     scoreSound.volume = .5;
     energiaSound = await loadAudio('sounds/energia.mp3');
@@ -45,13 +45,13 @@ const init = async () => {
     // Instancia os objetos do jogo
     energia = new Energia(300, 200, 20, 5, energiaImg);
     dragao = new Dragao(300, 200, 8, 82, 89, FRAMES);
-    tangerine = {
+    star = {
         x: 200,
         y: 200,
         width: 40, // Largura da imagem da tangerina
         height: 40, // Altura da imagem da tangerina
         draw: function(ctx) {
-            ctx.drawImage(tangerineImg, this.x, this.y, this.width, this.height);
+            ctx.drawImage(starImg, this.x, this.y, this.width, this.height);
         },
         restart: function() {
             // Garante que a tangerina fique dentro dos limites do canvas
@@ -72,7 +72,7 @@ const init = async () => {
 const start = () => {
     let startInterval = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        hud(ctx, `Pressione ENTER para começar!! `, "red", canvas.height / 2 - 50);
+        hud(ctx, `Pressione ENTER para começar!! `, "red",  canvas.height / 2 - 50);
         if (key === 'Enter') {
             themeSound.play();
             clearInterval(startInterval);
@@ -87,12 +87,26 @@ const updateScoreTable = () => {
 };
 
 // Exibe mensagem de fim de jogo
-const displayGameOverMessage = () => {
-    document.getElementById('game-over-message').textContent = `GAME OVER!! Você fez ${score} pontos`;
-    document.getElementById('restart-message').textContent = `Pressione F5 para reiniciar!`;
+const displayGameOver = () => {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; // Fundo semi-transparente para destacar a mensagem
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // Desenha o fundo da mensagem ocupando toda a tela
+
+    ctx.fillStyle = 'white'; // Cor do texto
+    ctx.font = 'bold 48px CustomFont'; // Define a fonte e o tamanho
+    ctx.textAlign = 'center'; // Centraliza o texto horizontalmente
+    ctx.textBaseline = 'middle'; // Centraliza o texto verticalmente
+
+    // Desenha o texto principal
+    ctx.fillText(`GAME OVER`, canvas.width / 2, canvas.height / 2 - 50);
+
+    // Fonte e tamanho para a mensagem de reinício
+    ctx.font = '24px CustomFont'; 
+    ctx.fillText(`Pressione F5 para reiniciar!`, canvas.width / 2, canvas.height / 2 + 0);
 };
 
-const colideTangerine = (colisao, rect) => {
+
+
+const colideStar = (colisao, rect) => {
     const distX = Math.abs(colisao.x + colisao.width / 2 - rect.x - rect.width / 2);
     const distY = Math.abs(colisao.y + colisao.height / 2 - rect.y - rect.height / 2);
 
@@ -132,7 +146,7 @@ const loop = () => {
         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
         // Desenha a tangerina
-        tangerine.draw(ctx);
+        star.draw(ctx);
 
         // Desenha e move a energia
         energia.paint(ctx);
@@ -151,8 +165,8 @@ const loop = () => {
         });
 
         // Lógica para quando o herói ou o energia colidem com a tangerina
-        if (colideTangerine(dragao, tangerine) || energia.colide(tangerine)) {
-            tangerine.restart();
+        if (colideStar(dragao, star) || energia.colide(star)) {
+            star.restart();
             dragao.grow(10);
             playScoreSound(); // Reproduz o som de pontuação
             score += POINTS_FOR_YELLOWBALL;
@@ -174,7 +188,7 @@ const loop = () => {
 
         // Lógica para o fim de jogo
         if (gameover) {
-            displayGameOverMessage();
+            displayGameOver();
             gameoverSound.play();
             themeSound.pause();
             cancelAnimationFrame(anime); // Para a animação do jogo
