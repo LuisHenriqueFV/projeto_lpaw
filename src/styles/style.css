@@ -38,8 +38,8 @@ canvas {
 
 #score-table {
     position: absolute;
-    top: 20px;
-    right: 20px; 
+    top: 140px;
+    right: 350px; 
     color: white;
     padding: 10px;
 }
