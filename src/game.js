@@ -12,7 +12,7 @@ const POINTS_FOR_ENERGIA = 10; // Pontos por acertar a energia
 let enemies = Array.from({ length: 2 }); // Array para armazenar inimigos
 let ctx, canvas, gameover, boundaries, score, anime; // Variáveis gerais para o jogo
 let nextEnemyScoreThreshold = 100;
-let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg; // Sons e imagem de fundo
+let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg, startBackgroundImg; // Sons e imagem de fundo
 
 // Função principal de inicialização
 const init = async () => {
@@ -23,6 +23,7 @@ const init = async () => {
     ctx = canvas.getContext('2d'); // Obtém o contexto de renderização 2D
 
     // Carrega imagens e sons
+    startBackgroundImg = await loadImage('img/logo.png')
     backgroundImg = await loadImage('img/background_game.png');
     energiaImg = await loadImage('img/fogo.png');
     starImg = await loadImage('img/star.png');
@@ -72,7 +73,14 @@ const init = async () => {
 const start = () => {
     let startInterval = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        hud(ctx, `Pressione ENTER para começar!! `, "red",  canvas.height / 2 - 50);
+        
+        // Desenha a imagem de fundo
+        ctx.drawImage(startBackgroundImg, 0, 0, canvas.width, canvas.height);
+        
+        // Desenha o HUD
+        hud(ctx, `Pressione ENTER para começar`, "white", canvas.height / 2 + 210);
+
+        // Verifica a tecla pressionada
         if (key === 'Enter') {
             themeSound.play();
             clearInterval(startInterval);
