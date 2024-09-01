@@ -1,6 +1,8 @@
 @font-face {
     font-family: 'CustomFont';
-    src: url('src/font/font.otf') format('opentype');
+    src: url('src/font/font.woff2') format('woff2'),
+         url('src/font/font.woff') format('woff'),
+         url('src/font/font.otf') format('opentype');
 }
 
 body {
@@ -23,14 +25,15 @@ body {
 header {
     color: rgb(216, 52, 52);
     font-family: 'CustomFont';
-    font-size: 40px;
+    font-size: 56px;
     text-align: center;
     margin-top: -15%;
+    margin-bottom: 10px;
 }
 
 #score-table {
     font-family: 'Arial';
-    margin-top: -20%; /* Ajusta o espaço entre o título e o score */
+    margin-top: -20%;
     color: white;
     padding: 10px;
     text-align: center;
