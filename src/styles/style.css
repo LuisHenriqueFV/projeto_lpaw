@@ -26,7 +26,7 @@ header {
     font-size: 56px;
     text-align: center;
     margin-top: -15%;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 #score-table {
