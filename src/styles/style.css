@@ -1,8 +1,6 @@
 @font-face {
-    font-family: 'CustomFont';
-    src: url('src/font/font.woff2') format('woff2'),
-         url('src/font/font.woff') format('woff'),
-         url('src/font/font.otf') format('opentype');
+    font-family: CustomFont;
+    src: url('src/font/font.otf') format('opentype');
 }
 
 body {
@@ -13,7 +11,7 @@ body {
     height: 100vh;
     background-color: #000;
     position: relative;
-    font-family: 'CustomFont', sans-serif;
+    font-family: CustomFont, sans-serif;
 }
 
 .container {
@@ -24,7 +22,7 @@ body {
 
 header {
     color: rgb(216, 52, 52);
-    font-family: 'CustomFont';
+    font-family: CustomFont;
     font-size: 56px;
     text-align: center;
     margin-top: -15%;
