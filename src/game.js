@@ -78,7 +78,7 @@ const start = () => {
         ctx.drawImage(startBackgroundImg, 0, 0, canvas.width, canvas.height);
         
         // Desenha o HUD
-        hud(ctx, `Pressione ENTER para começar`, "red", canvas.height / 2 + 210);
+        hud(ctx, `Pressione ENTER para começar`, "white", canvas.height / 2 + 210);
 
         // Verifica a tecla pressionada
         if (key === 'Enter') {
