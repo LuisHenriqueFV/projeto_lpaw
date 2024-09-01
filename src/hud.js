@@ -9,5 +9,3 @@ const hud = (ctx,texto, color = "red",y=0)=>{
 }
 
 export default hud
-
-

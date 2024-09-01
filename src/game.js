@@ -7,8 +7,8 @@ import { loadAudio, loadImage } from "./loaderAssets"; // Importa funções para
 
 const FRAMES = 70; // Taxa de quadros por segundo
 let energiaImg, energia, dragao, starImg, star; // Variáveis para a energia, Herói e Tangerina
-const POINTS_FOR_YELLOWBALL = 50; // Pontos por coletar a tangerina
-const POINTS_FOR_ENERGIA = 10; // Pontos por acertar a energia
+const PONTOS_ESTRELA = 50; // Pontos por coletar a tangerina
+const PONTOS_ENERGIA = 10; // Pontos por acertar a energia
 let enemies = Array.from({ length: 2 }); // Array para armazenar inimigos
 let ctx, canvas, gameover, boundaries, score, anime; // Variáveis gerais para o jogo
 let nextEnemyScoreThreshold = 100;
@@ -78,7 +78,7 @@ const start = () => {
         ctx.drawImage(startBackgroundImg, 0, 0, canvas.width, canvas.height);
         
         // Desenha o HUD
-        hud(ctx, `Pressione ENTER para começar`, "white", canvas.height / 2 + 210);
+        hud(ctx, `Pressione ENTER para começar`, "red", canvas.height / 2 + 210);
 
         // Verifica a tecla pressionada
         if (key === 'Enter') {
@@ -177,14 +177,14 @@ const loop = () => {
             star.restart();
             dragao.grow(10);
             playScoreSound(); // Reproduz o som de pontuação
-            score += POINTS_FOR_YELLOWBALL;
+            score += PONTOS_ESTRELA;
         }
 
         // Lógica para quando a energia colide com o herói
         if (energia.colide(dragao)) {
             dragao.shrink(10);
             energia.moveRandomly(boundaries);
-            score += POINTS_FOR_ENERGIA;
+            score += PONTOS_ENERGIA;
             playEnergiaSound(); // Reproduz o som do energia
         }
 
