@@ -44,16 +44,16 @@ export default class Dragao extends Colisao {
         this.controlarSprite(FRAMES);
     }
 
-    aumentarTamanho(amount) {
-        this.width += amount;
-        this.height += amount;
+    aumentarTamanho(tamanhoAjuste) {
+        this.width += tamanhoAjuste;
+        this.height += tamanhoAjuste;
         this.size = this.width / 2;
         this.setHit();
     }
 
-    diminuirTamanho(amount) {
-        this.width = Math.max(this.width - amount, 32);
-        this.height = Math.max(this.height - amount, 32);
+    diminuirTamanho(tamanhoAjuste) {
+        this.width = Math.max(this.width - tamanhoAjuste, 32);
+        this.height = Math.max(this.height - tamanhoAjuste, 32);
         this.size = this.width / 2;
         this.setHit();
     }
@@ -162,14 +162,14 @@ export default class Dragao extends Colisao {
     }
 
     // Aumenta o tamanho do herói ao coletar uma energia
-    collectEnergia() {
-        this.increaseSpeed(2); // Aumenta a velocidade do herói
-        this.aumentarTamanho(10);         // Aumenta o tamanho do herói
+    coletarEnergia() {
+        this.alteraVelocidade(2); // Aumenta a velocidade do herói
+        this.diminuirTamanho(10);         // dimunui o tamanho do herói
     }
 
     // Aumenta a velocidade do herói
-    increaseSpeed(amount) {
-        this.speed += amount;
+    alteraVelocidade(tamanhoAjuste) {
+        this.speed += tamanhoAjuste;
     }
 
     // Define os movimentos do herói com base na direção

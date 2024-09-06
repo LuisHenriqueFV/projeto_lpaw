@@ -49,13 +49,13 @@ const init = async () => {
     star = {
         x: 200,
         y: 200,
-        width: 40, // Largura da imagem da tangerina
-        height: 40, // Altura da imagem da tangerina
+        width: 40, 
+        height: 40, 
         draw: function(ctx) {
             ctx.drawImage(starImg, this.x, this.y, this.width, this.height);
         },
         restart: function() {
-            // Garante que a tangerina fique dentro dos limites do canvas
+            // Garante que a estrela fique dentro dos limites do canvas
             this.x = Math.random() * (bordas.width - this.width);
             this.y = Math.random() * (bordas.height - this.height);
         }
@@ -142,24 +142,18 @@ const playScoreSound = () => {
 };
 
 const playEnergiaSound = () => {
-    // Reinicia a reprodução do som da energia
     energiaSound.currentTime = 0; // Volta ao início do áudio
     energiaSound.play();
 };
 
-// Loop principal do jogo
 const loop = () => {
     setTimeout(() => {
-        // Desenha o fundo
         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
-        // Desenha a tangerina
         star.draw(ctx);
 
-        // Desenha e move a energia
         energia.paint(ctx);
 
-        // Move e desenha o herói com base nas teclas pressionadas
         dragao.move(bordas, key);
         dragao.draw(ctx);
 
@@ -172,11 +166,11 @@ const loop = () => {
             }
         });
 
-        // Lógica para quando o herói ou o energia colidem com a tangerina
+        // Lógica para quando o herói ou o energia colidem com a estrela
         if (colideStar(dragao, star) || energia.colide(star)) {
             star.restart();
             dragao.aumentarTamanho(10);
-            playScoreSound(); // Reproduz o som de pontuação
+            playScoreSound(); 
             score += PONTOS_ESTRELA;
         }
 
@@ -188,18 +182,16 @@ const loop = () => {
             playEnergiaSound(); // Reproduz o som do energia
         }
 
-        // Verifica se o jogador atingiu a pontuação para adicionar um novo inimigo
         if (score >= nextEnemyScoreThreshold) {
             addEnemy(); // Função para adicionar novo inimigo
             nextEnemyScoreThreshold += 100; // Próximo aumento será após mais 100 pontos
         }
 
-        // Lógica para o fim de jogo
         if (gameover) {
             displayGameOver();
             gameoverSound.play();
             themeSound.pause();
-            cancelAnimationFrame(anime); // Para a animação do jogo
+            cancelAnimationFrame(anime); 
         } else {
             updateScoreTable(); // Atualiza a pontuação na tela
             anime = requestAnimationFrame(loop); // Continua o loop do jogo
