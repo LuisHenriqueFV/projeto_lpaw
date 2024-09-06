@@ -10,7 +10,7 @@ let energiaImg, energia, dragao, starImg, star; // Variáveis para a energia, He
 const PONTOS_ESTRELA = 50; // Pontos por coletar a tangerina
 const PONTOS_ENERGIA = 10; // Pontos por acertar a energia
 let enemies = Array.from({ length: 2 }); // Array para armazenar inimigos
-let ctx, canvas, gameover, boundaries, score, anime; // Variáveis gerais para o jogo
+let ctx, canvas, gameover, bordas, score, anime; // Variáveis gerais para o jogo
 let nextEnemyScoreThreshold = 100;
 let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg, startBackgroundImg; // Sons e imagem de fundo
 
@@ -38,7 +38,7 @@ const init = async () => {
     themeSound.loop = true;
 
     // Define os limites do jogo
-    boundaries = {
+    bordas = {
         width: canvas.width,
         height: canvas.height
     };
@@ -56,8 +56,8 @@ const init = async () => {
         },
         restart: function() {
             // Garante que a tangerina fique dentro dos limites do canvas
-            this.x = Math.random() * (boundaries.width - this.width);
-            this.y = Math.random() * (boundaries.height - this.height);
+            this.x = Math.random() * (bordas.width - this.width);
+            this.y = Math.random() * (bordas.height - this.height);
         }
     };
     enemies = enemies.map(() => new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
@@ -160,12 +160,12 @@ const loop = () => {
         energia.paint(ctx);
 
         // Move e desenha o herói com base nas teclas pressionadas
-        dragao.move(boundaries, key);
+        dragao.move(bordas, key);
         dragao.draw(ctx);
 
         // Move e desenha os inimigos
         enemies.forEach(e => {
-            e.move(boundaries);
+            e.move(bordas);
             e.draw(ctx);
             if (dragao.colide(e)) {
                 gameover = true;
@@ -175,15 +175,15 @@ const loop = () => {
         // Lógica para quando o herói ou o energia colidem com a tangerina
         if (colideStar(dragao, star) || energia.colide(star)) {
             star.restart();
-            dragao.grow(10);
+            dragao.aumentarTamanho(10);
             playScoreSound(); // Reproduz o som de pontuação
             score += PONTOS_ESTRELA;
         }
 
         // Lógica para quando a energia colide com o herói
         if (energia.colide(dragao)) {
-            dragao.shrink(10);
-            energia.moveRandomly(boundaries);
+            dragao.diminuirTamanho(10);
+            energia.moveRandomly(bordas);
             score += PONTOS_ENERGIA;
             playEnergiaSound(); // Reproduz o som do energia
         }

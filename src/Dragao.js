@@ -23,7 +23,7 @@ export default class Dragao extends Colisao {
         // Velocidade do herói
         this.baseSpeed = velocity;
         this.speed = this.baseSpeed; 
-        this.status = 'right'; // Direção inicial
+        this.direcaoInicial = 'right'; // Direção inicial
 
         this.showHit = false; // Controle da exibição do hitbox
 
@@ -41,27 +41,24 @@ export default class Dragao extends Colisao {
 
         // Controle da animação do sprite
         this.lastFrameTime = 0;
-        this.controlSprite(FRAMES);
+        this.controlarSprite(FRAMES);
     }
 
-    // Aumenta o tamanho do herói
-    grow(amount) {
+    aumentarTamanho(amount) {
         this.width += amount;
         this.height += amount;
         this.size = this.width / 2;
         this.setHit();
     }
 
-    // Diminui o tamanho do herói
-    shrink(amount) {
+    diminuirTamanho(amount) {
         this.width = Math.max(this.width - amount, 32);
         this.height = Math.max(this.height - amount, 32);
         this.size = this.width / 2;
         this.setHit();
     }
 
-    // Controla a animação do sprite
-    controlSprite(FRAMES) {
+    controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
                 this.frameCounter = (this.frameCounter || 0) + 2;
@@ -81,7 +78,7 @@ export default class Dragao extends Colisao {
     draw(CTX) {
         if (!this.imgLoaded) return;
     
-        this.cellY = this.sprites[this.status] * this.cellHeight; // Mantém a direção
+        this.cellY = this.sprites[this.direcaoInicial] * this.cellHeight; // Mantém a direção
     
         CTX.drawImage(
             this.img,
@@ -141,9 +138,9 @@ export default class Dragao extends Colisao {
     move(limits, key) {
         this.setMovements();
 
-        this.status = this.controls[key] || this.status;
+        this.direcaoInicial = this.controls[key] || this.direcaoInicial;
 
-        const movimento = this.movements[this.status];
+        const movimento = this.movements[this.direcaoInicial];
 
         if (movimento) {
             this.x = movimento.x;
@@ -167,7 +164,7 @@ export default class Dragao extends Colisao {
     // Aumenta o tamanho do herói ao coletar uma energia
     collectEnergia() {
         this.increaseSpeed(2); // Aumenta a velocidade do herói
-        this.grow(10);         // Aumenta o tamanho do herói
+        this.aumentarTamanho(10);         // Aumenta o tamanho do herói
     }
 
     // Aumenta a velocidade do herói

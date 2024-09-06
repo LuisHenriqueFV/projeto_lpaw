@@ -28,11 +28,11 @@ export default class Energia extends Colisao {
         });
 
         // Controle da animação do sprite
-        this.controlSprite();
+        this.controlarSprite();
     }
 
     // Controla a animação do sprite
-    controlSprite() {
+    controlarSprite() {
         const updateSprite = () => {
             if (this.imgLoaded) {
                 this.frameCounter++;

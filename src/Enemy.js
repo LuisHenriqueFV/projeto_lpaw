@@ -29,11 +29,11 @@ export default class Enemy extends Colisao {
         });
 
         // Controle da animação do sprite
-        this.controlSprite(FRAMES);
+        this.controlarSprite(FRAMES);
     }
 
     // Controla a animação do sprite
-    controlSprite(FRAMES) {
+    controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
                 this.frameCounter++;
