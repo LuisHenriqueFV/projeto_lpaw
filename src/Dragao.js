@@ -45,8 +45,8 @@ export default class Dragao extends Colisao {
     }
 
     diminuirTamanho(tamanhoAjuste) {
-        this.width = Math.max(this.width - tamanhoAjuste, 32);
-        this.height = Math.max(this.height - tamanhoAjuste, 32);
+        this.width = Math.max(this.width - tamanhoAjuste, 22);
+        this.height = Math.max(this.height - tamanhoAjuste, 22);
         this.size = this.width / 2;
         this.setHit();
     }
