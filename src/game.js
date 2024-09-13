@@ -149,7 +149,7 @@ const loop = () => {
             }
         });
 
-        if (colideStar(dragao, star) || energia.colide(star)) {
+        if (colideStar(dragao, star)) {
             star.restart();
             dragao.aumentarTamanho(10);
             playScoreSound(); 
