@@ -1,28 +1,26 @@
-import { keyPress, key } from "./keyboard"; // Importa funções para capturar teclas
-import Energia from "./Energia"; // Importa a classe energia
-import Enemy from "./Enemy"; // Importa a classe Enemy
-import Dragao from "./Dragao"; // Importa a classe Dragao
-import hud from "./hud"; // Importa a função hud para exibir mensagens na tela
-import { loadAudio, loadImage } from "./loaderAssets"; // Importa funções para carregar áudio e imagens
+import { keyPress, key } from "./keyboard";
+import Energia from "./Energia";
+import Enemy from "./Enemy"; 
+import Dragao from "./Dragao"; 
+import hud from "./hud"; 
+import { loadAudio, loadImage } from "./loaderAssets"; 
 
-const FRAMES = 70; // Taxa de quadros por segundo
-let energiaImg, energia, dragao, starImg, star; // Variáveis para a energia, Herói e Tangerina
-const PONTOS_ESTRELA = 50; // Pontos por coletar a tangerina
-const PONTOS_ENERGIA = 10; // Pontos por acertar a energia
-let enemies = Array.from({ length: 2 }); // Array para armazenar inimigos
-let ctx, canvas, gameover, bordas, score, anime; // Variáveis gerais para o jogo
+const FRAMES = 70; 
+let energiaImg, energia, dragao, starImg, star; 
+const PONTOS_ESTRELA = 50; 
+const PONTOS_ENERGIA = 10; 
+let enemies = Array.from({ length: 2 }); 
+let ctx, canvas, gameover, bordas, score, anime; 
 let nextEnemyScoreThreshold = 100;
-let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg, startBackgroundImg; // Sons e imagem de fundo
+let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg, startBackgroundImg; 
 
-// Função principal de inicialização
 const init = async () => {
     score = 0;
     gameover = false;
 
-    canvas = document.querySelector('canvas'); // Seleciona o elemento canvas
-    ctx = canvas.getContext('2d'); // Obtém o contexto de renderização 2D
+    canvas = document.querySelector('canvas'); 
+    ctx = canvas.getContext('2d');
 
-    // Carrega imagens e sons
     startBackgroundImg = await loadImage('img/logo.png')
     backgroundImg = await loadImage('img/background_game.png');
     energiaImg = await loadImage('img/fogo.png');
@@ -37,13 +35,11 @@ const init = async () => {
     themeSound.volume = .3;
     themeSound.loop = true;
 
-    // Define os limites do jogo
     bordas = {
         width: canvas.width,
         height: canvas.height
     };
 
-    // Instancia os objetos do jogo
     energia = new Energia(300, 200, 20, 5, energiaImg);
     dragao = new Dragao(300, 200, 8, 82, 89, FRAMES);
     star = {
@@ -55,32 +51,25 @@ const init = async () => {
             ctx.drawImage(starImg, this.x, this.y, this.width, this.height);
         },
         restart: function() {
-            // Garante que a estrela fique dentro dos limites do canvas
             this.x = Math.random() * (bordas.width - this.width);
             this.y = Math.random() * (bordas.height - this.height);
         }
     };
     enemies = enemies.map(() => new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
 
-    // Captura eventos de teclado
     keyPress(window);
     
-    // Inicia o jogo
     start();
 };
 
-// Função para iniciar o jogo após pressionar ENTER
 const start = () => {
     let startInterval = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Desenha a imagem de fundo
         ctx.drawImage(startBackgroundImg, 0, 0, canvas.width, canvas.height);
         
-        // Desenha o HUD
         hud(ctx, `Pressione ENTER para começar`, "white", canvas.height / 2 + 210);
 
-        // Verifica a tecla pressionada
         if (key === 'Enter') {
             themeSound.play();
             clearInterval(startInterval);
@@ -89,25 +78,21 @@ const start = () => {
     }, 1000);
 };
 
-// Atualiza a tabela de pontuação
 const updateScoreTable = () => {
     document.getElementById('score').textContent = `Score: ${score}`;
 };
 
-// Exibe mensagem de fim de jogo
 const displayGameOver = () => {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; // Fundo semi-transparente para destacar a mensagem
-    ctx.fillRect(0, 0, canvas.width, canvas.height); // Desenha o fundo da mensagem ocupando toda a tela
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height); 
 
-    ctx.fillStyle = 'white'; // Cor do texto
-    ctx.font = 'bold 48px CustomFont'; // Define a fonte e o tamanho
-    ctx.textAlign = 'center'; // Centraliza o texto horizontalmente
-    ctx.textBaseline = 'middle'; // Centraliza o texto verticalmente
+    ctx.fillStyle = 'white'; 
+    ctx.font = 'bold 48px CustomFont'; 
+    ctx.textAlign = 'center'; 
+    ctx.textBaseline = 'middle'; 
 
-    // Desenha o texto principal
     ctx.fillText(`GAME OVER`, canvas.width / 2, canvas.height / 2 - 50);
 
-    // Fonte e tamanho para a mensagem de reinício
     ctx.font = '24px CustomFont'; 
     ctx.fillText(`Pressione F5 para reiniciar!`, canvas.width / 2, canvas.height / 2 + 0);
 };
@@ -136,13 +121,12 @@ const addEnemy = () => {
 };
 
 const playScoreSound = () => {
-    // Reinicia a reprodução do som de pontuação
-    scoreSound.currentTime = 0; // Volta ao início do áudio
+    scoreSound.currentTime = 0;
     scoreSound.play();
 };
 
 const playEnergiaSound = () => {
-    energiaSound.currentTime = 0; // Volta ao início do áudio
+    energiaSound.currentTime = 0; 
     energiaSound.play();
 };
 
@@ -157,7 +141,6 @@ const loop = () => {
         dragao.move(bordas, key);
         dragao.draw(ctx);
 
-        // Move e desenha os inimigos
         enemies.forEach(e => {
             e.move(bordas);
             e.draw(ctx);
@@ -166,7 +149,6 @@ const loop = () => {
             }
         });
 
-        // Lógica para quando o herói ou o energia colidem com a estrela
         if (colideStar(dragao, star) || energia.colide(star)) {
             star.restart();
             dragao.aumentarTamanho(10);
@@ -174,17 +156,16 @@ const loop = () => {
             score += PONTOS_ESTRELA;
         }
 
-        // Lógica para quando a energia colide com o herói
         if (energia.colide(dragao)) {
             dragao.diminuirTamanho(10);
             energia.moveRandomly(bordas);
             score += PONTOS_ENERGIA;
-            playEnergiaSound(); // Reproduz o som do energia
+            playEnergiaSound(); 
         }
 
         if (score >= nextEnemyScoreThreshold) {
-            addEnemy(); // Função para adicionar novo inimigo
-            nextEnemyScoreThreshold += 100; // Próximo aumento será após mais 100 pontos
+            addEnemy(); 
+            nextEnemyScoreThreshold += 100; 
         }
 
         if (gameover) {
@@ -193,11 +174,11 @@ const loop = () => {
             themeSound.pause();
             cancelAnimationFrame(anime); 
         } else {
-            updateScoreTable(); // Atualiza a pontuação na tela
-            anime = requestAnimationFrame(loop); // Continua o loop do jogo
+            updateScoreTable(); 
+            anime = requestAnimationFrame(loop);
         }
 
-    }, 1000 / FRAMES); // Controla a taxa de quadros
+    }, 1000 / FRAMES); 
 };
 
-export { init }; // Exporta a função init para ser usada em outro lugar
+export { init }; 

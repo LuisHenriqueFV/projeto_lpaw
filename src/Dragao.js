@@ -5,41 +5,34 @@ export default class Dragao extends Colisao {
     constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
         super(x, y, 0);
 
-        // Dimensões de cada célula do sprite
         this.cellWidth = 210; 
         this.cellHeight = 160; 
         this.cellX = 0;
         this.cellY = 0;
 
-        // Configuração do sprite
         this.totalSprites = 64; 
         this.spriteSpeed = 24;
 
-        // Dimensões do herói
         this.width = width;
         this.height = height;
         this.size = this.width;
 
-        // Velocidade do herói
         this.baseSpeed = velocity;
         this.speed = this.baseSpeed; 
-        this.direcaoInicial = 'right'; // Direção inicial
+        this.direcaoInicial = 'right'; 
 
-        this.showHit = false; // Controle da exibição do hitbox
+        this.showHit = false;
 
-        // Carrega a imagem do sprite do herói
         this.imgLoaded = false;
         loadImage('img/reddragonfly_sprite.png').then(img => {
             this.img = img;
             this.imgLoaded = true;
         });
 
-        // Configurações iniciais
         this.setHit();
         this.setControlsKeys();
         this.setSprites();
 
-        // Controle da animação do sprite
         this.lastFrameTime = 0;
         this.controlarSprite(FRAMES);
     }
@@ -63,7 +56,7 @@ export default class Dragao extends Colisao {
             if (this.imgLoaded) {
                 this.frameCounter = (this.frameCounter || 0) + 2;
                 if (this.frameCounter >= FRAMES / this.spriteSpeed) {
-                    this.cellX = (this.cellX + 1) % 4; // Muda para o próximo frame horizontal
+                    this.cellX = (this.cellX + 1) % 4; 
                     this.frameCounter = 0;
                 }
                 requestAnimationFrame(updateSprite);
@@ -74,15 +67,14 @@ export default class Dragao extends Colisao {
         requestAnimationFrame(updateSprite);
     }
 
-    // Desenha o herói na tela
     draw(CTX) {
         if (!this.imgLoaded) return;
     
-        this.cellY = this.sprites[this.direcaoInicial] * this.cellHeight; // Mantém a direção
+        this.cellY = this.sprites[this.direcaoInicial] * this.cellHeight; 
     
         CTX.drawImage(
             this.img,
-            this.cellX * this.cellWidth, // Altera para usar o frame atual do sprite horizontalmente
+            this.cellX * this.cellWidth, 
             this.cellY,
             this.cellWidth,
             this.cellHeight,
@@ -97,7 +89,6 @@ export default class Dragao extends Colisao {
         }
     }
 
-    // Define a área de colisão (hitbox) do herói
     setHit() {
         this.hit = new Colisao(
             this.x + this.width / 2,
@@ -108,7 +99,6 @@ export default class Dragao extends Colisao {
         );
     }
 
-    // Define os sprites para cada direção
     setSprites() {
         this.sprites = {
             'up': 0,
@@ -118,7 +108,6 @@ export default class Dragao extends Colisao {
         };
     }
 
-    // Define as teclas de controle do herói
     setControlsKeys() {
         this.controls = {
             "d": "right",
@@ -128,13 +117,11 @@ export default class Dragao extends Colisao {
         };
     }
 
-    // Atualiza a posição do hitbox com base na posição do herói
     update() {
         this.hit.x = this.x + this.width / 2;
         this.hit.y = this.y + this.height / 2;
     }
 
-    // Move o herói com base nas teclas pressionadas
     move(limits, key) {
         this.setMovements();
 
@@ -146,7 +133,6 @@ export default class Dragao extends Colisao {
             this.x = movimento.x;
             this.y = movimento.y;
 
-            // Tratamento para mover o herói para o lado oposto da tela se ele sair dos limites
             if (this.x > limits.width) this.x = -this.width;
             if (this.x + this.width < 0) this.x = limits.width;
             if (this.y > limits.height) this.y = -this.height;
@@ -156,23 +142,20 @@ export default class Dragao extends Colisao {
         this.update();
     }
 
-    // Verifica se há colisão com outro objeto
     colide(other) {
         return this.hit.colide(other);
     }
 
-    // Aumenta o tamanho do herói ao coletar uma energia
     coletarEnergia() {
-        this.alteraVelocidade(2); // Aumenta a velocidade do herói
-        this.diminuirTamanho(10);         // dimunui o tamanho do herói
+        this.alteraVelocidade(2); 
+        this.diminuirTamanho(10);    
     }
 
-    // Aumenta a velocidade do herói
     alteraVelocidade(tamanhoAjuste) {
         this.speed += tamanhoAjuste;
     }
 
-    // Define os movimentos do herói com base na direção
+    
     setMovements() {
         this.movements = {
             'right': { x: this.x + this.speed, y: this.y },

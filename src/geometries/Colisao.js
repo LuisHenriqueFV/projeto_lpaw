@@ -5,7 +5,7 @@ export default class Colisao {
 		this.size = size;
 	}
 
-	colide(circ){                      //calcula a distância entre os centros dos dois objetos
+	colide(circ){                     
 		return this.size + circ.size >= Math.sqrt((this.x - circ.x)**2 + (this.y - circ.y)**2);
 	}
 }

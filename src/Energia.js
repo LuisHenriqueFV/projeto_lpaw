@@ -5,33 +5,27 @@ export default class Energia extends Colisao {
     constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/energia.png') {
         super(x, y, size);
 
-        // Dimensões de cada célula do sprite
         this.cellWidth = 87; 
         this.cellHeight = 98; 
         this.cellX = 0;
         this.cellY = 0;
 
-        // Configuração do sprite
         this.totalSprites = 16; 
         this.spriteSpeed = 14;
         this.spriteFrame = 0;
-        this.frameCounter = 0; // Contador para controlar a troca de sprites
+        this.frameCounter = 0; 
 
-        // Velocidade da energia
         this.speed = speed;
 
-        // Carrega a imagem do sprite do energia
         this.imgLoaded = false;
         loadImage(imageSrc).then(img => {
             this.img = img;
             this.imgLoaded = true;
         });
 
-        // Controle da animação do sprite
         this.controlarSprite();
     }
 
-    // Controla a animação do sprite
     controlarSprite() {
         const updateSprite = () => {
             if (this.imgLoaded) {
@@ -42,10 +36,9 @@ export default class Energia extends Colisao {
                         this.spriteFrame = 0;
                     }
                     
-                    // Calcula a posição correta do frame na sprite sheet
                     this.cellX = (this.spriteFrame % 4) * this.cellWidth;
                     this.cellY = Math.floor(this.spriteFrame / 4) * this.cellHeight;
-                    this.frameCounter = 0; // Reinicia o contador
+                    this.frameCounter = 0; 
                 }
                 requestAnimationFrame(updateSprite);
             } else {
@@ -56,14 +49,13 @@ export default class Energia extends Colisao {
         requestAnimationFrame(updateSprite);
     }
 
-    // Desenha o energia na tela
     paint(ctx) {
         if (!this.imgLoaded) return;
 
         ctx.drawImage(
             this.img,
-            this.cellX, // Posição X no sprite
-            this.cellY, // Posição Y no sprite
+            this.cellX, 
+            this.cellY, 
             this.cellWidth,
             this.cellHeight,
             this.x - this.size,
@@ -73,13 +65,11 @@ export default class Energia extends Colisao {
         );
     }
 
-    // Move o energia de forma aleatória
     moveRandomly(limits) {
         this.x = Math.random() * (limits.width - this.size) + this.size;
         this.y = Math.random() * (limits.height - this.size) + this.size;
     }
 
-    // Verifica colisão com outro objeto
     colide(other) {
         const collisionRadius = this.size * 0.5; 
         const dx = this.x - other.x;
@@ -88,7 +78,6 @@ export default class Energia extends Colisao {
         return distance < (collisionRadius + other.size);
     }
 
-    // Mantém a energia dentro dos limites
     limits(limits) {
         this.x = this.x + this.size > limits.width ? limits.width - this.size : this.x;
         this.x = this.x - this.size < 0 ? this.size : this.x;
