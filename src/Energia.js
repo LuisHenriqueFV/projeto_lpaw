@@ -70,7 +70,7 @@ export default class Energia extends Colisao {
         this.y = Math.random() * (limits.height - this.size) + this.size;
     }
 
-    colide(other) {
+    colisao(other) {
         const collisionRadius = this.size * 0.5; 
         const dx = this.x - other.x;
         const dy = this.y - other.y;

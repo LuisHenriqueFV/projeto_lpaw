@@ -153,8 +153,8 @@ export default class Dragao extends Colisao {
         this.update();
     }
 
-    colide(other) {
-        return this.hit.colide(other);
+    colisao(other) {
+        return this.hit.colisao(other);
     }
 
     coletarEnergia() {

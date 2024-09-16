@@ -99,7 +99,7 @@ const displayGameOver = () => {
 
 
 
-const colideStar = (colisao, rect) => {
+const colisaoEstrela = (colisao, rect) => {
     const distX = Math.abs(colisao.x + colisao.larguraDragao / 2 - rect.x - rect.width / 2);
     const distY = Math.abs(colisao.y + colisao.alturaDragao / 2 - rect.y - rect.height / 2);
 
@@ -144,19 +144,19 @@ const loop = () => {
         enemies.forEach(e => {
             e.move(bordas);
             e.draw(ctx);
-            if (dragao.colide(e)) {
+            if (dragao.colisao(e)) {
                 gameover = true;
             }
         });
 
-        if (colideStar(dragao, star)) {
+        if (colisaoEstrela(dragao, star)) {
             star.restart();
             dragao.aumentarTamanho(10);
             playScoreSound(); 
             score += PONTOS_ESTRELA;
         }
 
-        if (energia.colide(dragao)) {
+        if (energia.colisao(dragao)) {
             dragao.diminuirTamanho(10);
             energia.moveRandomly(bordas);
             score += PONTOS_ENERGIA;
