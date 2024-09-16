@@ -24,7 +24,7 @@ export default class Dragao extends Colisao {
         this.showHit = false;
 
         this.imgLoaded = false;
-        loadImage('img/reddragonfly_sprite.png').then(img => {
+        loadImage('img/sprite.png').then(img => {
             this.img = img;
             this.imgLoaded = true;
         });
