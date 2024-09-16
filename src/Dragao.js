@@ -31,16 +31,15 @@ export default class Dragao extends Colisao {
         });
 
         this.setHit();
-        this.setControlsKeys();
+        this.setControleTeclas();
         this.setSprites();
 
-        this.lastFrameTime = 0;
         this.controlarSprite(FRAMES);
     }
 
-    aumentarTamanho(tamanhoAjuste) {
-        this.larguraDragao += tamanhoAjuste;
-        this.alturaDragao += tamanhoAjuste;
+    aumentarTamanho(valorTamanho) {
+        this.larguraDragao += valorTamanho;
+        this.alturaDragao += valorTamanho;
         this.size = this.larguraDragao / 2;
         this.setHit();
     }
@@ -104,9 +103,8 @@ export default class Dragao extends Colisao {
         this.hit = new Colisao(
             this.x + this.larguraDragao / 2,
             this.y + this.alturaDragao / 2,
-            this.size * 0.5,
+            this.size * 0.5, //reduz a area de colisao referente ao dragao
             5,
-            "rgba(0,0,255,.3)"
         );
     }
 
@@ -119,8 +117,8 @@ export default class Dragao extends Colisao {
         };
     }
 
-    setControlsKeys() {
-        this.controls = {
+    setControleTeclas() {
+        this.controlar = {
             "d": "right",
             "a": "left",
             "w": "up",
@@ -133,10 +131,10 @@ export default class Dragao extends Colisao {
         this.hit.y = this.y + this.alturaDragao / 2;
     }
 
-    move(limits, key) {
+    move(limits, teclas) {
         this.setMovements();
 
-        this.direcaoInicial = this.controls[key] || this.direcaoInicial;
+        this.direcaoInicial = this.controlar[teclas] || this.direcaoInicial;
 
         const movimento = this.movements[this.direcaoInicial];
 
