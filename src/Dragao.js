@@ -1,4 +1,4 @@
-import Colisao from './geometries/Colisao';
+import Colisao from './Colisao';
 import { loadImage } from "./loaderAssets";
 
 export default class Dragao extends Colisao {
