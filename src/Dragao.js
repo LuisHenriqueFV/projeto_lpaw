@@ -22,7 +22,6 @@ export default class Dragao extends Colisao {
     
         this.direcaoInicial = 'right'; 
 
-        this.showHit = false;
 
         this.imgLoaded = false;
         loadImage('img/sprite.png').then(img => {
@@ -79,13 +78,11 @@ export default class Dragao extends Colisao {
 
     draw(CTX) {
         if (!this.imgLoaded) return;
-    
-        this.spriteLinha = this.sprites[this.direcaoInicial] * this.spriteAltura; 
-    
+        
         CTX.drawImage(
             this.img,
             this.spriteColuna * this.spriteLargura, 
-            this.spriteLinha,
+            this.sprites[this.direcaoInicial] * this.spriteAltura,
             this.spriteLargura,
             this.spriteAltura,
             this.x,
@@ -94,9 +91,7 @@ export default class Dragao extends Colisao {
             this.alturaDragao
         );
     
-        if (this.showHit) {
-            this.hit.draw(CTX);
-        }
+     
     }
 
     setHit() {
