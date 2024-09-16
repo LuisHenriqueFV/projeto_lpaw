@@ -16,7 +16,7 @@ export default class Dragao extends Colisao {
 
         this.larguraDragao = larguraDragao;
         this.alturaDragao = alturaDragao;
-        this.size = this.larguraDragao / 2;
+        this.raio = this.larguraDragao / 2;
 
         this.velocidadeAtual = velocidadeInicial;
     
@@ -40,14 +40,14 @@ export default class Dragao extends Colisao {
     aumentarTamanho(valorTamanho) {
         this.larguraDragao += valorTamanho;
         this.alturaDragao += valorTamanho;
-        this.size = this.larguraDragao / 2;
+        this.raio = this.larguraDragao / 2;
         this.setHit();
     }
 
     diminuirTamanho(tamanhoAjuste) {
         this.larguraDragao = Math.max(this.larguraDragao - tamanhoAjuste, 22);
         this.alturaDragao = Math.max(this.alturaDragao - tamanhoAjuste, 22);
-        this.size = this.larguraDragao / 2;
+        this.raio = this.larguraDragao / 2;
         this.setHit();
     }
 
@@ -103,7 +103,7 @@ export default class Dragao extends Colisao {
         this.hit = new Colisao(
             this.x + this.larguraDragao / 2,
             this.y + this.alturaDragao / 2,
-            this.size * 0.5, //reduz a area de colisao referente ao dragao
+            this.raio * 0.5, //reduz a area de colisao referente ao dragao
             5,
         );
     }

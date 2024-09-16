@@ -2,8 +2,8 @@ import Colisao from "./geometries/Colisao";
 import { loadImage } from "./loaderAssets";
 
 export default class Inimigo extends Colisao {
-    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
-        super(x, y, size);
+    constructor(x, y, raio, speed = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
+        super(x, y, raio);
 
         this.spriteLargura = 48; 
         this.spriteAltura = 46; 
@@ -65,10 +65,10 @@ export default class Inimigo extends Colisao {
             this.spriteLinha * this.spriteAltura,
             this.spriteLargura,
             this.spriteAltura,
-            this.x - this.size,
-            this.y - this.size,
-            this.size * 2,
-            this.size * 2
+            this.x - this.raio,
+            this.y - this.raio,
+            this.raio * 2,
+            this.raio * 2
         );
     }
 
@@ -78,8 +78,8 @@ export default class Inimigo extends Colisao {
     }
 
     limits(limits) {
-        if (this.y - this.size > limits.height + this.size) {
-            this.y = -this.size;
+        if (this.y - this.raio > limits.height + this.raio) {
+            this.y = -this.raio;
             this.x = Math.random() * limits.width;
         }
     }

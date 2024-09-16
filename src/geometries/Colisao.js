@@ -1,11 +1,11 @@
 export default class Colisao {
-	constructor(x, y, size) {
+	constructor(x, y, raio) {
 		this.x = x;
 		this.y = y;
-		this.size = size;
+		this.raio = raio;
 	}
 
 	colisao(circ){                     
-		return this.size + circ.size >= Math.sqrt((this.x - circ.x)**2 + (this.y - circ.y)**2);
+		return this.raio + circ.raio >= Math.sqrt((this.x - circ.x)**2 + (this.y - circ.y)**2);
 	}
 }

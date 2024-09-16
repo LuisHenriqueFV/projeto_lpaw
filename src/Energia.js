@@ -2,8 +2,8 @@ import Colisao from './geometries/Colisao';
 import { loadImage } from "./loaderAssets";
 
 export default class Energia extends Colisao {
-    constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/energia.png') {
-        super(x, y, size);
+    constructor(x, y, raio, speed = 10, FRAMES = 60, imageSrc = 'img/energia.png') {
+        super(x, y, raio);
 
         this.spriteLargura = 87; 
         this.spriteAltura = 98; 
@@ -58,31 +58,31 @@ export default class Energia extends Colisao {
             this.spriteLinha, 
             this.spriteLargura,
             this.spriteAltura,
-            this.x - this.size,
-            this.y - this.size,
-            this.size * 2,
-            this.size * 2
+            this.x - this.raio,
+            this.y - this.raio,
+            this.raio * 2,
+            this.raio * 2
         );
     }
 
     moveRandomly(limits) {
-        this.x = Math.random() * (limits.width - this.size) + this.size;
-        this.y = Math.random() * (limits.height - this.size) + this.size;
+        this.x = Math.random() * (limits.width - this.raio) + this.raio;
+        this.y = Math.random() * (limits.height - this.raio) + this.raio;
     }
 
     colisao(other) {
-        const collisionRadius = this.size * 0.5; 
+        const collisionRadius = this.raio * 0.5; 
         const dx = this.x - other.x;
         const dy = this.y - other.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (collisionRadius + other.size);
+        return distance < (collisionRadius + other.raio);
     }
 
     limits(limits) {
-        this.x = this.x + this.size > limits.width ? limits.width - this.size : this.x;
-        this.x = this.x - this.size < 0 ? this.size : this.x;
+        this.x = this.x + this.raio > limits.width ? limits.width - this.raio : this.x;
+        this.x = this.x - this.raio < 0 ? this.raio : this.x;
 
-        this.y = this.y + this.size > limits.height ? limits.height - this.size : this.y;
-        this.y = this.y - this.size < 0 ? this.size : this.y;
+        this.y = this.y + this.raio > limits.height ? limits.height - this.raio : this.y;
+        this.y = this.y - this.raio < 0 ? this.raio : this.y;
     }
 }
