@@ -10,6 +10,7 @@ export default class Dragao extends Colisao {
         this.spriteColuna = 0;
         this.spriteLinha = 0;
 
+        this.contarNumeroFrames = 0;
         this.totalSprites = 64; 
         this.spriteSpeed = 24;
 
@@ -54,10 +55,10 @@ export default class Dragao extends Colisao {
     controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
-                this.frameCounter = (this.frameCounter || 0) + 2;
-                if (this.frameCounter >= FRAMES / this.spriteSpeed) {
+                this.contarNumeroFrames = this.contarNumeroFrames  + 1;
+                if (this.contarNumeroFrames >= FRAMES / this.spriteSpeed) {
                     this.spriteColuna = (this.spriteColuna + 1) % 4; 
-                    this.frameCounter = 0;
+                    this.contarNumeroFrames = 0;
                 }
                 requestAnimationFrame(updateSprite);
             } else {
