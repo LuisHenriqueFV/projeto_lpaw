@@ -10,8 +10,8 @@ export default class Energia extends Colisao {
         this.spriteColuna = 0;
         this.spriteLinha = 0;
 
-        this.totalSprites = 16; 
-        this.spriteSpeed = 14;
+        this.totalSprites = 15; 
+        this.velocidadeAnimacaoSprite = 14;
         this.spriteFrame = 0;
         this.contadorCiclos = 0; 
 
@@ -30,7 +30,7 @@ export default class Energia extends Colisao {
         const updateSprite = () => {
             if (this.imgLoaded) {
                 this.contadorCiclos++;
-                if (this.contadorCiclos >= this.spriteSpeed) {
+                if (this.contadorCiclos >= this.velocidadeAnimacaoSprite) {
                     this.spriteFrame++;
                     if (this.spriteFrame >= this.totalSprites) {
                         this.spriteFrame = 0;
@@ -70,19 +70,25 @@ export default class Energia extends Colisao {
         this.y = Math.random() * (limite.height - this.raio) + this.raio;
     }
 
-    colisao(other) {
+    colisao(objetoColidido) {
         const collisionRadius = this.raio * 0.5; 
-        const dx = this.x - other.x;
-        const dy = this.y - other.y;
+        const dx = this.x - objetoColidido.x;
+        const dy = this.y - objetoColidido.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (collisionRadius + other.raio);
+        return distance < (collisionRadius + objetoColidido.raio);
     }
 
     limite(valorLimite) {
-        this.x = this.x + this.raio > valorLimite.width ? valorLimite.width - this.raio : this.x;
-        this.x = this.x - this.raio < 0 ? this.raio : this.x;
-
-        this.y = this.y + this.raio > valorLimite.height ? valorLimite.height - this.raio : this.y;
-        this.y = this.y - this.raio < 0 ? this.raio : this.y;
+        if (this.x + this.extensaoHorizontal > valorLimite.width) {
+            this.x = valorLimite.width - this.extensaoHorizontal;
+        } else if (this.x - this.extensaoHorizontal < 0) {
+            this.x = this.extensaoHorizontal;
+        }
+    
+        if (this.y + this.extensaoVertical > valorLimite.height) {
+            this.y = valorLimite.height - this.extensaoVertical;
+        } else if (this.y - this.extensaoVertical < 0) {
+            this.y = this.extensaoVertical;
+        }
     }
 }
