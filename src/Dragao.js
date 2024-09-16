@@ -2,7 +2,7 @@ import Colisao from './geometries/Colisao';
 import { loadImage } from "./loaderAssets";
 
 export default class Dragao extends Colisao {
-    constructor(x, y, velocity = 10, larguraDragao, alturaDragao, FRAMES = 60) {
+    constructor(x, y, velocidadeInicial, larguraDragao, alturaDragao, FRAMES = 60) {
         super(x, y, 0);
 
         this.spriteLargura = 210; 
@@ -18,8 +18,8 @@ export default class Dragao extends Colisao {
         this.alturaDragao = alturaDragao;
         this.size = this.larguraDragao / 2;
 
-        this.baseSpeed = velocity;
-        this.speed = this.baseSpeed; 
+        this.velocidadeAtual = velocidadeInicial;
+    
         this.direcaoInicial = 'right'; 
 
         this.showHit = false;
@@ -163,16 +163,16 @@ export default class Dragao extends Colisao {
     }
 
     alteraVelocidade(tamanhoAjuste) {
-        this.speed += tamanhoAjuste;
+        this.velocidadeAtual += tamanhoAjuste;
     }
 
     
     setMovements() {
         this.movements = {
-            'right': { x: this.x + this.speed, y: this.y },
-            'left': { x: this.x - this.speed, y: this.y },
-            'up': { x: this.x, y: this.y - this.speed },
-            'down': { x: this.x, y: this.y + this.speed }
+            'right': { x: this.x + this.velocidadeAtual, y: this.y },
+            'left': { x: this.x - this.velocidadeAtual, y: this.y },
+            'up': { x: this.x, y: this.y - this.velocidadeAtual },
+            'down': { x: this.x, y: this.y + this.velocidadeAtual }
         };
     }
 }
