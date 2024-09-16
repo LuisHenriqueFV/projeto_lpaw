@@ -11,7 +11,7 @@ const PONTOS_ESTRELA = 50;
 const PONTOS_ENERGIA = 10; 
 let enemies = Array.from({ length: 2 }); 
 let ctx, canvas, gameover, bordas, score, anime; 
-let nextEnemyScoreThreshold = 100;
+let limitePontuacaoProximoInimigo = 100;
 let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg, startBackgroundImg; 
 
 const init = async () => {
@@ -115,9 +115,9 @@ const colisaoEstrela = (colisao, rect) => {
     return (dx * dx + dy * dy <= (colisao.raioColisao * colisao.raioColisao));
 };
 
-const addEnemy = () => {
-    const newEnemy = new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5);
-    enemies.push(newEnemy);
+const adicionaInimigo = () => {
+    const novoInimigo = new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5);
+    enemies.push(novoInimigo);
 };
 
 const playScoreSound = () => {
@@ -163,9 +163,9 @@ const loop = () => {
             playEnergiaSound(); 
         }
 
-        if (score >= nextEnemyScoreThreshold) {
-            addEnemy(); 
-            nextEnemyScoreThreshold += 100; 
+        if (score >= limitePontuacaoProximoInimigo) {
+            adicionaInimigo(); 
+            limitePontuacaoProximoInimigo += 100; 
         }
 
         if (gameover) {
