@@ -13,7 +13,7 @@ export default class Enemy extends Colisao {
         this.totalSprites = 7; 
         this.spriteSpeed = 100; 
         this.spriteFrame = 0;
-        this.contarNumeroFrames = 0; 
+        this.contadorCiclos = 0; 
         this.maxSpriteSpeed = 300; 
 
         this.speed = speed;
@@ -30,9 +30,9 @@ export default class Enemy extends Colisao {
     controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
-                this.contarNumeroFrames++;
+                this.contadorCiclos++;
                 
-                if (this.contarNumeroFrames >= this.spriteSpeed) {
+                if (this.contadorCiclos >= this.spriteSpeed) {
                     this.spriteFrame++;
                     
                     if (this.spriteFrame >= this.totalSprites) {
@@ -40,7 +40,7 @@ export default class Enemy extends Colisao {
                     }
                     
                     this.spriteColuna = this.spriteFrame;
-                    this.contarNumeroFrames = 0; 
+                    this.contadorCiclos = 0; 
 
                     if (this.spriteSpeed <= this.maxSpriteSpeed) {
                         this.spriteFrame = 0; 

@@ -13,7 +13,7 @@ export default class Energia extends Colisao {
         this.totalSprites = 16; 
         this.spriteSpeed = 14;
         this.spriteFrame = 0;
-        this.contarNumeroFrames = 0; 
+        this.contadorCiclos = 0; 
 
         this.speed = speed;
 
@@ -29,8 +29,8 @@ export default class Energia extends Colisao {
     controlarSprite() {
         const updateSprite = () => {
             if (this.imgLoaded) {
-                this.contarNumeroFrames++;
-                if (this.contarNumeroFrames >= this.spriteSpeed) {
+                this.contadorCiclos++;
+                if (this.contadorCiclos >= this.spriteSpeed) {
                     this.spriteFrame++;
                     if (this.spriteFrame >= this.totalSprites) {
                         this.spriteFrame = 0;
@@ -38,7 +38,7 @@ export default class Energia extends Colisao {
                     
                     this.spriteColuna = (this.spriteFrame % 4) * this.spriteLargura;
                     this.spriteLinha = Math.floor(this.spriteFrame / 4) * this.spriteAltura;
-                    this.contarNumeroFrames = 0; 
+                    this.contadorCiclos = 0; 
                 }
                 requestAnimationFrame(updateSprite);
             } else {
