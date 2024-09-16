@@ -98,8 +98,7 @@ export default class Dragao extends Colisao {
         this.hit = new Colisao(
             this.x + this.larguraDragao / 2,
             this.y + this.alturaDragao / 2,
-            this.raio * 0.5, //reduz a area de colisao referente ao dragao
-            5,
+            this.raio * 0.5 //reduz a area de colisao referente ao dragao
         );
     }
 
@@ -113,7 +112,7 @@ export default class Dragao extends Colisao {
     }
 
     setControleTeclas() {
-        this.controlar = {
+        this.controleTeclas = {
             "d": "right",
             "a": "left",
             "w": "up",
@@ -126,21 +125,22 @@ export default class Dragao extends Colisao {
         this.hit.y = this.y + this.alturaDragao / 2;
     }
 
-    move(limits, teclas) {
-        this.setMovements();
+    move(limite, tecla) {
+        this.definirMovimentos();
 
-        this.direcaoInicial = this.controlar[teclas] || this.direcaoInicial;
+        this.direcaoInicial = this.controleTeclas[tecla] || this.direcaoInicial;
 
-        const movimento = this.movements[this.direcaoInicial];
+        const movimentoAtual = this.movementos[this.direcaoInicial];
 
-        if (movimento) {
-            this.x = movimento.x;
-            this.y = movimento.y;
+        //se houver um movimento válido definido, atualiza as coordenadas do dragao
+        if (movimentoAtual) {
+            this.x = movimentoAtual.x;
+            this.y = movimentoAtual.y;
 
-            if (this.x > limits.width) this.x = -this.larguraDragao;
-            if (this.x + this.larguraDragao < 0) this.x = limits.width;
-            if (this.y > limits.height) this.y = -this.alturaDragao;
-            if (this.y + this.alturaDragao < 0) this.y = limits.height;
+            if (this.x > limite.width) this.x = -this.larguraDragao;
+            if (this.x + this.larguraDragao < 0) this.x = limite.width;
+            if (this.y > limite.height) this.y = -this.alturaDragao;
+            if (this.y + this.alturaDragao < 0) this.y = limite.height;
         }
 
         this.update();
@@ -160,8 +160,8 @@ export default class Dragao extends Colisao {
     }
 
     
-    setMovements() {
-        this.movements = {
+    definirMovimentos() {
+        this.movementos = {
             'right': { x: this.x + this.velocidadeAtual, y: this.y },
             'left': { x: this.x - this.velocidadeAtual, y: this.y },
             'up': { x: this.x, y: this.y - this.velocidadeAtual },

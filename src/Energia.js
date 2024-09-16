@@ -65,9 +65,9 @@ export default class Energia extends Colisao {
         );
     }
 
-    moveRandomly(limits) {
-        this.x = Math.random() * (limits.width - this.raio) + this.raio;
-        this.y = Math.random() * (limits.height - this.raio) + this.raio;
+    moveRandomly(limite) {
+        this.x = Math.random() * (limite.width - this.raio) + this.raio;
+        this.y = Math.random() * (limite.height - this.raio) + this.raio;
     }
 
     colisao(other) {
@@ -78,11 +78,11 @@ export default class Energia extends Colisao {
         return distance < (collisionRadius + other.raio);
     }
 
-    limits(limits) {
-        this.x = this.x + this.raio > limits.width ? limits.width - this.raio : this.x;
+    limite(valorLimite) {
+        this.x = this.x + this.raio > valorLimite.width ? valorLimite.width - this.raio : this.x;
         this.x = this.x - this.raio < 0 ? this.raio : this.x;
 
-        this.y = this.y + this.raio > limits.height ? limits.height - this.raio : this.y;
+        this.y = this.y + this.raio > valorLimite.height ? valorLimite.height - this.raio : this.y;
         this.y = this.y - this.raio < 0 ? this.raio : this.y;
     }
 }
