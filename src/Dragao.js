@@ -55,10 +55,20 @@ export default class Dragao extends Colisao {
     controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
-                this.contadorCiclos++; //    60   /  30 = 2 ciclos
+                this.contadorCiclos++; // Contador de ciclos para controlar a troca de quadros
+                
+                // Verifica se é hora de trocar o quadro
+                                        //  60    /       30 = 2
                 if (this.contadorCiclos >= FRAMES / this.spriteSpeed) {
-                    this.spriteColuna = (this.spriteColuna + 1) % 4; 
-                    this.contadorCiclos = 0;
+                    this.spriteColuna += 1; // Avança para o próximo quadro
+    
+                    // Ajusta o índice se ultrapassar o número de colunas
+                    const maxColunas = 4; // Número total de colunas no sprite sheet
+                    while (this.spriteColuna >= maxColunas) {
+                        this.spriteColuna = 0; // volta para a primeira coluna
+                    }
+    
+                    this.contadorCiclos = 0; // Reseta o contador de ciclos
                 }
                 requestAnimationFrame(updateSprite);
             } else {
