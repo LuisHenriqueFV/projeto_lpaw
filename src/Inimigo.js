@@ -1,7 +1,7 @@
 import Colisao from "./geometries/Colisao";
 import { loadImage } from "./loaderAssets";
 
-export default class Enemy extends Colisao {
+export default class Inimigo extends Colisao {
     constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
         super(x, y, size);
 

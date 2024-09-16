@@ -1,6 +1,6 @@
 import { keyPress, key } from "./keyboard";
 import Energia from "./Energia";
-import Enemy from "./Enemy"; 
+import Inimigo from "./Inimigo"; 
 import Dragao from "./Dragao"; 
 import hud from "./hud"; 
 import { loadAudio, loadImage } from "./loaderAssets"; 
@@ -55,7 +55,7 @@ const init = async () => {
             this.y = Math.random() * (bordas.height - this.height);
         }
     };
-    enemies = enemies.map(() => new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
+    enemies = enemies.map(() => new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
 
     keyPress(window);
     
@@ -112,11 +112,11 @@ const colisaoEstrela = (colisao, rect) => {
     const dx = distX - rect.width / 2;
     const dy = distY - rect.height / 2;
 
-    return (dx * dx + dy * dy <= (colisao.size * colisao.size));
+    return (dx * dx + dy * dy <= (colisao.raioColisao * colisao.raioColisao));
 };
 
 const addEnemy = () => {
-    const newEnemy = new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5);
+    const newEnemy = new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5);
     enemies.push(newEnemy);
 };
 
