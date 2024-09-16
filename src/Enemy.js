@@ -5,10 +5,10 @@ export default class Enemy extends Colisao {
     constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
         super(x, y, size);
 
-        this.cellWidth = 48; 
-        this.cellHeight = 46; 
-        this.cellX = 0;
-        this.cellY = 0;
+        this.spriteLargura = 48; 
+        this.spriteAltura = 46; 
+        this.spriteColuna = 0;
+        this.spriteLinha = 0;
 
         this.totalSprites = 7; 
         this.spriteSpeed = 100; 
@@ -39,7 +39,7 @@ export default class Enemy extends Colisao {
                         this.spriteFrame = 0;
                     }
                     
-                    this.cellX = this.spriteFrame;
+                    this.spriteColuna = this.spriteFrame;
                     this.frameCounter = 0; 
 
                     if (this.spriteSpeed <= this.maxSpriteSpeed) {
@@ -61,10 +61,10 @@ export default class Enemy extends Colisao {
 
         ctx.drawImage(
             this.img,
-            this.cellX * this.cellWidth,
-            this.cellY * this.cellHeight,
-            this.cellWidth,
-            this.cellHeight,
+            this.spriteColuna * this.spriteLargura,
+            this.spriteLinha * this.spriteAltura,
+            this.spriteLargura,
+            this.spriteAltura,
             this.x - this.size,
             this.y - this.size,
             this.size * 2,

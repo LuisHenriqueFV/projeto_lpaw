@@ -5,10 +5,10 @@ export default class Dragao extends Colisao {
     constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
         super(x, y, 0);
 
-        this.cellWidth = 210; 
-        this.cellHeight = 160; 
-        this.cellX = 0;
-        this.cellY = 0;
+        this.spriteLargura = 210; 
+        this.spriteAltura = 160; 
+        this.spriteColuna = 0;
+        this.spriteLinha = 0;
 
         this.totalSprites = 64; 
         this.spriteSpeed = 24;
@@ -56,7 +56,7 @@ export default class Dragao extends Colisao {
             if (this.imgLoaded) {
                 this.frameCounter = (this.frameCounter || 0) + 2;
                 if (this.frameCounter >= FRAMES / this.spriteSpeed) {
-                    this.cellX = (this.cellX + 1) % 4; 
+                    this.spriteColuna = (this.spriteColuna + 1) % 4; 
                     this.frameCounter = 0;
                 }
                 requestAnimationFrame(updateSprite);
@@ -70,14 +70,14 @@ export default class Dragao extends Colisao {
     draw(CTX) {
         if (!this.imgLoaded) return;
     
-        this.cellY = this.sprites[this.direcaoInicial] * this.cellHeight; 
+        this.spriteLinha = this.sprites[this.direcaoInicial] * this.spriteAltura; 
     
         CTX.drawImage(
             this.img,
-            this.cellX * this.cellWidth, 
-            this.cellY,
-            this.cellWidth,
-            this.cellHeight,
+            this.spriteColuna * this.spriteLargura, 
+            this.spriteLinha,
+            this.spriteLargura,
+            this.spriteAltura,
             this.x,
             this.y,
             this.width,

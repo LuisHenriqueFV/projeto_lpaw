@@ -5,10 +5,10 @@ export default class Energia extends Colisao {
     constructor(x, y, size, speed = 10, FRAMES = 60, imageSrc = 'img/energia.png') {
         super(x, y, size);
 
-        this.cellWidth = 87; 
-        this.cellHeight = 98; 
-        this.cellX = 0;
-        this.cellY = 0;
+        this.spriteLargura = 87; 
+        this.spriteAltura = 98; 
+        this.spriteColuna = 0;
+        this.spriteLinha = 0;
 
         this.totalSprites = 16; 
         this.spriteSpeed = 14;
@@ -36,8 +36,8 @@ export default class Energia extends Colisao {
                         this.spriteFrame = 0;
                     }
                     
-                    this.cellX = (this.spriteFrame % 4) * this.cellWidth;
-                    this.cellY = Math.floor(this.spriteFrame / 4) * this.cellHeight;
+                    this.spriteColuna = (this.spriteFrame % 4) * this.spriteLargura;
+                    this.spriteLinha = Math.floor(this.spriteFrame / 4) * this.spriteAltura;
                     this.frameCounter = 0; 
                 }
                 requestAnimationFrame(updateSprite);
@@ -54,10 +54,10 @@ export default class Energia extends Colisao {
 
         ctx.drawImage(
             this.img,
-            this.cellX, 
-            this.cellY, 
-            this.cellWidth,
-            this.cellHeight,
+            this.spriteColuna, 
+            this.spriteLinha, 
+            this.spriteLargura,
+            this.spriteAltura,
             this.x - this.size,
             this.y - this.size,
             this.size * 2,
