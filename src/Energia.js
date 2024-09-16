@@ -71,11 +71,11 @@ export default class Energia extends Colisao {
     }
 
     colisao(objetoColidido) {
-        const collisionRadius = this.raio * 0.5; 
+        const raioColisao = this.raio * 0.5; 
         const dx = this.x - objetoColidido.x;
         const dy = this.y - objetoColidido.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (collisionRadius + objetoColidido.raio);
+        const distancia = Math.sqrt(dx * dx + dy * dy);
+        return distancia < (raioColisao + objetoColidido.raio);
     }
 
     limite(valorLimite) {

@@ -12,7 +12,7 @@ export default class Dragao extends Colisao {
 
         this.contadorCiclos = 0;
         this.totalSprites = 64; 
-        this.spriteSpeed = 30;
+        this.velocidadeAnimacaoSprite = 30;
 
         this.larguraDragao = larguraDragao;
         this.alturaDragao = alturaDragao;
@@ -57,7 +57,7 @@ export default class Dragao extends Colisao {
                 
                 // Verifica se é hora de trocar o quadro
                                         //  60    /       30 = 2
-                if (this.contadorCiclos >= FRAMES / this.spriteSpeed) {
+                if (this.contadorCiclos >= FRAMES / this.velocidadeAnimacaoSprite) {
                     this.spriteColuna += 1; // Avança para o próximo quadro
     
                     // Ajusta o índice se ultrapassar o número de colunas
