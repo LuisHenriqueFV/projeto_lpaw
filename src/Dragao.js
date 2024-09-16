@@ -2,7 +2,7 @@ import Colisao from './geometries/Colisao';
 import { loadImage } from "./loaderAssets";
 
 export default class Dragao extends Colisao {
-    constructor(x, y, velocity = 10, width, height, FRAMES = 60) {
+    constructor(x, y, velocity = 10, larguraDragao, alturaDragao, FRAMES = 60) {
         super(x, y, 0);
 
         this.spriteLargura = 210; 
@@ -14,9 +14,9 @@ export default class Dragao extends Colisao {
         this.totalSprites = 64; 
         this.spriteSpeed = 30;
 
-        this.width = width;
-        this.height = height;
-        this.size = this.width;
+        this.larguraDragao = larguraDragao;
+        this.alturaDragao = alturaDragao;
+        this.size = this.larguraDragao / 2;
 
         this.baseSpeed = velocity;
         this.speed = this.baseSpeed; 
@@ -39,16 +39,16 @@ export default class Dragao extends Colisao {
     }
 
     aumentarTamanho(tamanhoAjuste) {
-        this.width += tamanhoAjuste;
-        this.height += tamanhoAjuste;
-        this.size = this.width / 2;
+        this.larguraDragao += tamanhoAjuste;
+        this.alturaDragao += tamanhoAjuste;
+        this.size = this.larguraDragao / 2;
         this.setHit();
     }
 
     diminuirTamanho(tamanhoAjuste) {
-        this.width = Math.max(this.width - tamanhoAjuste, 22);
-        this.height = Math.max(this.height - tamanhoAjuste, 22);
-        this.size = this.width / 2;
+        this.larguraDragao = Math.max(this.larguraDragao - tamanhoAjuste, 22);
+        this.alturaDragao = Math.max(this.alturaDragao - tamanhoAjuste, 22);
+        this.size = this.larguraDragao / 2;
         this.setHit();
     }
 
@@ -91,8 +91,8 @@ export default class Dragao extends Colisao {
             this.spriteAltura,
             this.x,
             this.y,
-            this.width,
-            this.height
+            this.larguraDragao,
+            this.alturaDragao
         );
     
         if (this.showHit) {
@@ -102,8 +102,8 @@ export default class Dragao extends Colisao {
 
     setHit() {
         this.hit = new Colisao(
-            this.x + this.width / 2,
-            this.y + this.height / 2,
+            this.x + this.larguraDragao / 2,
+            this.y + this.alturaDragao / 2,
             this.size * 0.5,
             5,
             "rgba(0,0,255,.3)"
@@ -129,8 +129,8 @@ export default class Dragao extends Colisao {
     }
 
     update() {
-        this.hit.x = this.x + this.width / 2;
-        this.hit.y = this.y + this.height / 2;
+        this.hit.x = this.x + this.larguraDragao / 2;
+        this.hit.y = this.y + this.alturaDragao / 2;
     }
 
     move(limits, key) {
@@ -144,10 +144,10 @@ export default class Dragao extends Colisao {
             this.x = movimento.x;
             this.y = movimento.y;
 
-            if (this.x > limits.width) this.x = -this.width;
-            if (this.x + this.width < 0) this.x = limits.width;
-            if (this.y > limits.height) this.y = -this.height;
-            if (this.y + this.height < 0) this.y = limits.height;
+            if (this.x > limits.width) this.x = -this.larguraDragao;
+            if (this.x + this.larguraDragao < 0) this.x = limits.width;
+            if (this.y > limits.height) this.y = -this.alturaDragao;
+            if (this.y + this.alturaDragao < 0) this.y = limits.height;
         }
 
         this.update();

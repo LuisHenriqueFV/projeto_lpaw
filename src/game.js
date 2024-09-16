@@ -100,11 +100,11 @@ const displayGameOver = () => {
 
 
 const colideStar = (colisao, rect) => {
-    const distX = Math.abs(colisao.x + colisao.width / 2 - rect.x - rect.width / 2);
-    const distY = Math.abs(colisao.y + colisao.height / 2 - rect.y - rect.height / 2);
+    const distX = Math.abs(colisao.x + colisao.larguraDragao / 2 - rect.x - rect.width / 2);
+    const distY = Math.abs(colisao.y + colisao.alturaDragao / 2 - rect.y - rect.height / 2);
 
-    if (distX > (rect.width / 2 + colisao.width / 2)) return false;
-    if (distY > (rect.height / 2 + colisao.height / 2)) return false;
+    if (distX > (rect.width / 2 + colisao.larguraDragao / 2)) return false;
+    if (distY > (rect.height / 2 + colisao.alturaDragao / 2)) return false;
 
     if (distX <= (rect.width / 2)) return true;
     if (distY <= (rect.height / 2)) return true;
