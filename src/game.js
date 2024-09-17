@@ -100,20 +100,30 @@ const displayGameOver = () => {
 
 
 const colisaoEstrela = (dragao, estrela) => {
-    const distanciaHorizontal = Math.abs(dragao.x + dragao.larguraDragao / 2 - estrela.x - estrela.width / 2);
-    const distanciaVertical = Math.abs(dragao.y + dragao.alturaDragao / 2 - estrela.y - estrela.height / 2);
+    const centroDragaoX = dragao.x + dragao.larguraDragao / 2;
+    const centroDragaoY = dragao.y + dragao.alturaDragao / 2;
+    const centroEstrelaX = estrela.x + estrela.width / 2;
+    const centroEstrelaY = estrela.y + estrela.height / 2;
 
-    if (distanciaHorizontal > (estrela.width / 2 + dragao.larguraDragao / 2)) return false;
-    if (distanciaVertical > (estrela.height / 2 + dragao.alturaDragao / 2)) return false;
+    const distanciaHorizontal = Math.abs(centroDragaoX - centroEstrelaX);
+    const distanciaVertical = Math.abs(centroDragaoY - centroEstrelaY);
 
-    if (distanciaHorizontal <= (estrela.width / 2)) return true;
-    if (distanciaVertical <= (estrela.height / 2)) return true;
+    const raioDragaoHorizontal = dragao.larguraDragao / 2;
+    const raioDragaoVertical = dragao.alturaDragao / 2;
+    const raioEstrelaHorizontal = estrela.width / 2;
+    const raioEstrelaVertical = estrela.height / 2;
 
-    const diferencaHorizontal = distanciaHorizontal - estrela.width / 2;
-    const diferencaVerfical = distanciaVertical - estrela.height / 2;
+    if (distanciaHorizontal > (raioEstrelaHorizontal + raioDragaoHorizontal)) return false;
+    if (distanciaVertical > (raioEstrelaVertical + raioDragaoVertical)) return false;
 
-    return (diferencaHorizontal * diferencaHorizontal + diferencaVerfical * diferencaVerfical <= (dragao.raioColisao * dragao.raioColisao));
+    if (distanciaHorizontal <= raioEstrelaHorizontal) return true;
+    if (distanciaVertical <= raioEstrelaVertical) return true;
+
+    const diferencaHorizontal = distanciaHorizontal - raioEstrelaHorizontal;
+    const diferencaVertical = distanciaVertical - raioEstrelaVertical;
+
 };
+
 
 const adicionaInimigo = () => {
     const novoInimigo = new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5);
