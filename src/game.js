@@ -9,7 +9,7 @@ const FRAMES = 70;
 let energiaImg, energia, dragao, estrelaImg, estrela; 
 const PONTOS_ESTRELA = 50; 
 const PONTOS_ENERGIA = 10; 
-let enemies = Array.from({ length: 2 }); 
+let inimigos = Array.from({ length: 2 }); 
 let ctx, canvas, gameover, bordas, score, anime; 
 let limitePontuacaoProximoInimigo = 100;
 let energiaSound, scoreSound, themeSound, gameoverSound, backgroundImg, startBackgroundImg; 
@@ -55,7 +55,7 @@ const init = async () => {
             this.y = Math.random() * (bordas.height - this.height);
         }
     };
-    enemies = enemies.map(() => new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
+    inimigos = inimigos.map(() => new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
 
     keyPress(window);
     
@@ -117,7 +117,7 @@ const colisaoEstrela = (colisao, rect) => {
 
 const adicionaInimigo = () => {
     const novoInimigo = new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5);
-    enemies.push(novoInimigo);
+    inimigos.push(novoInimigo);
 };
 
 const playScoreSound = () => {
@@ -141,7 +141,7 @@ const loop = () => {
         dragao.move(bordas, key);
         dragao.draw(ctx);
 
-        enemies.forEach(e => {
+        inimigos.forEach(e => {
             e.move(bordas);
             e.draw(ctx);
             if (dragao.colisao(e)) {
