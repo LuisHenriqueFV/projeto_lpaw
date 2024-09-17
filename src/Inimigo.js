@@ -30,7 +30,7 @@ export default class Inimigo extends Colisao {
     controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
-                //a cada segundo, o clico aumenta para 60
+                //a cada segundo, o contador aumenta para 60
                 this.contadorFrames++;
                 
                 if (this.contadorFrames >= this.velocidadeTrocaSprite) {
