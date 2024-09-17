@@ -2,21 +2,21 @@ import Colisao from "./Colisao";
 import { loadImage } from "./loaderAssets";
 
 export default class Inimigo extends Colisao {
-    constructor(x, y, raio, speed = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
+    constructor(x, y, raio, velocidade = 10, FRAMES = 60, imageSrc = 'img/fogo.png') {
         super(x, y, raio);
 
         this.spriteLargura = 48; 
         this.spriteAltura = 46; 
-        this.spriteColuna = 0;
-        this.spriteLinha = 0;
+        this.colunaAtual = 0;
+        this.linhaAtual = 0;
 
         this.totalSprites = 6; 
-        this.spriteSpeed = 100; 
-        this.spriteFrame = 0;
-        this.contadorCiclos = 0; 
-        this.maxSpriteSpeed = 300; 
+        this.velocidadeTrocaSprite = 120; 
+        this.quadroAtual = 0;
+        this.contadorFrames = 0; 
+        this.velocidadeMaximaSprite = 300; 
 
-        this.speed = speed;
+        this.velocidade = velocidade;
 
         this.imgLoaded = false;
         loadImage(imageSrc).then(img => {
@@ -30,20 +30,21 @@ export default class Inimigo extends Colisao {
     controlarSprite(FRAMES) {
         const updateSprite = () => {
             if (this.imgLoaded) {
-                this.contadorCiclos++;
+                //a cada segundo, o clico aumenta para 60
+                this.contadorFrames++;
                 
-                if (this.contadorCiclos >= this.spriteSpeed) {
-                    this.spriteFrame++;
+                if (this.contadorFrames >= this.velocidadeTrocaSprite) {
+                    this.quadroAtual++;
                     
-                    if (this.spriteFrame >= this.totalSprites) {
-                        this.spriteFrame = 0;
+                    if (this.quadroAtual >= this.totalSprites) {
+                        this.quadroAtual = 0;
                     }
                     
-                    this.spriteColuna = this.spriteFrame;
-                    this.contadorCiclos = 0; 
+                    this.colunaAtual = this.quadroAtual;
+                    this.contadorFrames = 0; 
 
-                    if (this.spriteSpeed <= this.maxSpriteSpeed) {
-                        this.spriteFrame = 0; 
+                    if (this.velocidadeTrocaSprite <= this.velocidadeMaximaSprite) {
+                        this.quadroAtual = 0; 
                     }
                 }
 
@@ -61,8 +62,8 @@ export default class Inimigo extends Colisao {
 
         ctx.drawImage(
             this.img,
-            this.spriteColuna * this.spriteLargura,
-            this.spriteLinha * this.spriteAltura,
+            this.colunaAtual * this.spriteLargura,
+            this.linhaAtual * this.spriteAltura,
             this.spriteLargura,
             this.spriteAltura,
             this.x - this.raio,
@@ -73,7 +74,7 @@ export default class Inimigo extends Colisao {
     }
 
     move(limits) {
-        this.y += this.speed;
+        this.y += this.velocidade;
         this.limits(limits);
     }
 
