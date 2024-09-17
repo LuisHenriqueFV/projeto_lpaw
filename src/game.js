@@ -120,8 +120,8 @@ const colisaoEstrela = (dragao, estrela) => {
     if (distanciaHorizontal <= raioEstrelaHorizontal) return true;
     if (distanciaVertical <= raioEstrelaVertical) return true;
 
-    const diferencaHorizontal = distanciaHorizontal - raioEstrelaHorizontal;
-    const diferencaVertical = distanciaVertical - raioEstrelaVertical;
+    // const diferencaHorizontal = distanciaHorizontal - raioEstrelaHorizontal;
+    // const diferencaVertical = distanciaVertical - raioEstrelaVertical;
 
 };
 
