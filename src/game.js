@@ -100,19 +100,19 @@ const displayGameOver = () => {
 
 
 const colisaoEstrela = (dragao, estrela) => {
-    const distX = Math.abs(dragao.x + dragao.larguraDragao / 2 - estrela.x - estrela.width / 2);
-    const distY = Math.abs(dragao.y + dragao.alturaDragao / 2 - estrela.y - estrela.height / 2);
+    const distanciaHorizontal = Math.abs(dragao.x + dragao.larguraDragao / 2 - estrela.x - estrela.width / 2);
+    const distanciaVertical = Math.abs(dragao.y + dragao.alturaDragao / 2 - estrela.y - estrela.height / 2);
 
-    if (distX > (estrela.width / 2 + dragao.larguraDragao / 2)) return false;
-    if (distY > (estrela.height / 2 + dragao.alturaDragao / 2)) return false;
+    if (distanciaHorizontal > (estrela.width / 2 + dragao.larguraDragao / 2)) return false;
+    if (distanciaVertical > (estrela.height / 2 + dragao.alturaDragao / 2)) return false;
 
-    if (distX <= (estrela.width / 2)) return true;
-    if (distY <= (estrela.height / 2)) return true;
+    if (distanciaHorizontal <= (estrela.width / 2)) return true;
+    if (distanciaVertical <= (estrela.height / 2)) return true;
 
-    const dx = distX - estrela.width / 2;
-    const dy = distY - estrela.height / 2;
+    const diferencaHorizontal = distanciaHorizontal - estrela.width / 2;
+    const diferencaVerfical = distanciaVertical - estrela.height / 2;
 
-    return (dx * dx + dy * dy <= (dragao.raioColisao * dragao.raioColisao));
+    return (diferencaHorizontal * diferencaHorizontal + diferencaVerfical * diferencaVerfical <= (dragao.raioColisao * dragao.raioColisao));
 };
 
 const adicionaInimigo = () => {
