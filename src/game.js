@@ -6,7 +6,7 @@ import hud from "./hud";
 import { loadAudio, loadImage } from "./loaderAssets"; 
 
 const FRAMES = 70; 
-let energiaImg, energia, dragao, estrelaImg, estrela; 
+let energia, dragao, estrelaImg, estrela; 
 const PONTOS_ESTRELA = 50; 
 const PONTOS_ENERGIA = 10; 
 let inimigos = Array.from({ length: 2 }); 
@@ -23,7 +23,6 @@ const init = async () => {
 
     startBackgroundImg = await loadImage('img/logo.png')
     backgroundImg = await loadImage('img/background_game.png');
-    energiaImg = await loadImage('img/fogo.png');
     estrelaImg = await loadImage('img/estrela.png');
     scoreSound = await loadAudio('sounds/estrela.mp3');
     scoreSound.volume = .5;
@@ -40,7 +39,7 @@ const init = async () => {
         height: canvas.height
     };
 
-    energia = new Energia(300, 200, 20, 5, energiaImg);
+    energia = new Energia(300, 200, 20, 5);
     dragao = new Dragao(300, 200, 8, 82, 89, FRAMES);
     estrela = {
         x: 200,
@@ -55,7 +54,9 @@ const init = async () => {
             this.y = Math.random() * (bordas.height - this.height);
         }
     };
-    inimigos = inimigos.map(() => new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5, energiaImg));
+    inimigos = inimigos.map(() => new Inimigo(Math.random() * canvas.width, Math.random() * canvas.height, 10, 5));
+
+
 
     keyPress(window);
     
