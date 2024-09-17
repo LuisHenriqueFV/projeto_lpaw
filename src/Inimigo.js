@@ -10,7 +10,7 @@ export default class Inimigo extends Colisao {
         this.spriteColuna = 0;
         this.spriteLinha = 0;
 
-        this.totalSprites = 7; 
+        this.totalSprites = 6; 
         this.spriteSpeed = 100; 
         this.spriteFrame = 0;
         this.contadorCiclos = 0; 
