@@ -8,7 +8,6 @@ export default class Dragao extends Colisao {
         this.spriteLargura = 210; 
         this.spriteAltura = 160; 
         this.spriteColuna = 0;
-        // this.spriteLinha = 0;
 
 
         this.contadorCiclos = 0;
@@ -68,7 +67,6 @@ export default class Dragao extends Colisao {
                     }
     
                     this.contadorCiclos = 0; 
-                    // this.spriteLinha +=1
                 }
                 requestAnimationFrame(updateSprite);
             } else {
