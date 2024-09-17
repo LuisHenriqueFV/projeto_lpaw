@@ -151,10 +151,10 @@ const loop = () => {
         dragao.move(bordas, key);
         dragao.draw(ctx);
 
-        inimigos.forEach(e => {
-            e.move(bordas);
-            e.draw(ctx);
-            if (dragao.colisao(e)) {
+        inimigos.forEach(inimigo => {
+            inimigo.move(bordas);
+            inimigo.draw(ctx);
+            if (dragao.colisao(inimigo)) {
                 gameover = true;
             }
         });
