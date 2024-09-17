@@ -98,7 +98,7 @@ export default class Dragao extends Colisao {
         this.hit = new Colisao(
             this.x + this.larguraDragao / 2,
             this.y + this.alturaDragao / 2,
-            this.raio * 0.5 //reduz a area de colisao referente ao dragao
+            this.raio * 0.5 
         );
     }
 

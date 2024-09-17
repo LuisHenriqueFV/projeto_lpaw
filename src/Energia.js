@@ -77,6 +77,7 @@ export default class Energia extends Colisao {
         const distancia = Math.sqrt(dx * dx + dy * dy);
         return distancia < (raioColisao + objetoColidido.raio);
     }
+    
 
     limite(valorLimite) {
         if (this.x + this.extensaoHorizontal > valorLimite.width) {

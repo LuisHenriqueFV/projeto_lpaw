@@ -6,7 +6,7 @@ import hud from "./hud";
 import { loadAudio, loadImage } from "./loaderAssets"; 
 
 const FRAMES = 70; 
-let energiaImg, energia, dragao, starImg, star; 
+let energiaImg, energia, dragao, estrelaImg, estrela; 
 const PONTOS_ESTRELA = 50; 
 const PONTOS_ENERGIA = 10; 
 let enemies = Array.from({ length: 2 }); 
@@ -24,8 +24,8 @@ const init = async () => {
     startBackgroundImg = await loadImage('img/logo.png')
     backgroundImg = await loadImage('img/background_game.png');
     energiaImg = await loadImage('img/fogo.png');
-    starImg = await loadImage('img/star.png');
-    scoreSound = await loadAudio('sounds/star.mp3');
+    estrelaImg = await loadImage('img/estrela.png');
+    scoreSound = await loadAudio('sounds/estrela.mp3');
     scoreSound.volume = .5;
     energiaSound = await loadAudio('sounds/energia.mp3');
     energiaSound.volume = .5;
@@ -42,13 +42,13 @@ const init = async () => {
 
     energia = new Energia(300, 200, 20, 5, energiaImg);
     dragao = new Dragao(300, 200, 8, 82, 89, FRAMES);
-    star = {
+    estrela = {
         x: 200,
         y: 200,
         width: 40, 
         height: 40, 
         draw: function(ctx) {
-            ctx.drawImage(starImg, this.x, this.y, this.width, this.height);
+            ctx.drawImage(estrelaImg, this.x, this.y, this.width, this.height);
         },
         restart: function() {
             this.x = Math.random() * (bordas.width - this.width);
@@ -134,7 +134,7 @@ const loop = () => {
     setTimeout(() => {
         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
-        star.draw(ctx);
+        estrela.draw(ctx);
 
         energia.paint(ctx);
 
@@ -149,8 +149,8 @@ const loop = () => {
             }
         });
 
-        if (colisaoEstrela(dragao, star)) {
-            star.restart();
+        if (colisaoEstrela(dragao, estrela)) {
+            estrela.restart();
             dragao.aumentarTamanho(10);
             playScoreSound(); 
             score += PONTOS_ESTRELA;
