@@ -99,20 +99,20 @@ const displayGameOver = () => {
 
 
 
-const colisaoEstrela = (colisao, rect) => {
-    const distX = Math.abs(colisao.x + colisao.larguraDragao / 2 - rect.x - rect.width / 2);
-    const distY = Math.abs(colisao.y + colisao.alturaDragao / 2 - rect.y - rect.height / 2);
+const colisaoEstrela = (dragao, estrela) => {
+    const distX = Math.abs(dragao.x + dragao.larguraDragao / 2 - estrela.x - estrela.width / 2);
+    const distY = Math.abs(dragao.y + dragao.alturaDragao / 2 - estrela.y - estrela.height / 2);
 
-    if (distX > (rect.width / 2 + colisao.larguraDragao / 2)) return false;
-    if (distY > (rect.height / 2 + colisao.alturaDragao / 2)) return false;
+    if (distX > (estrela.width / 2 + dragao.larguraDragao / 2)) return false;
+    if (distY > (estrela.height / 2 + dragao.alturaDragao / 2)) return false;
 
-    if (distX <= (rect.width / 2)) return true;
-    if (distY <= (rect.height / 2)) return true;
+    if (distX <= (estrela.width / 2)) return true;
+    if (distY <= (estrela.height / 2)) return true;
 
-    const dx = distX - rect.width / 2;
-    const dy = distY - rect.height / 2;
+    const dx = distX - estrela.width / 2;
+    const dy = distY - estrela.height / 2;
 
-    return (dx * dx + dy * dy <= (colisao.raioColisao * colisao.raioColisao));
+    return (dx * dx + dy * dy <= (dragao.raioColisao * dragao.raioColisao));
 };
 
 const adicionaInimigo = () => {
